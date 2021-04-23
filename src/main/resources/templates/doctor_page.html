@@ -1,0 +1,1658 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>医生看诊开药页面</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="/Doctor/resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="/Doctor/data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="/Doctor/files/page_1/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="/Doctor/resources/scripts/jquery-3.2.1.min.js"></script>
+    <script src="/Doctor/resources/scripts/axure/axQuery.js"></script>
+    <script src="/Doctor/resources/scripts/axure/globals.js"></script>
+    <script src="/Doctor/resources/scripts/axutils.js"></script>
+    <script src="/Doctor/resources/scripts/axure/annotation.js"></script>
+    <script src="/Doctor/resources/scripts/axure/axQuery.std.js"></script>
+    <script src="/Doctor/resources/scripts/axure/doc.js"></script>
+    <script src="/Doctor/resources/scripts/messagecenter.js"></script>
+    <script src="/Doctor/resources/scripts/axure/events.js"></script>
+    <script src="/Doctor/resources/scripts/axure/recording.js"></script>
+    <script src="/Doctor/resources/scripts/axure/action.js"></script>
+    <script src="/Doctor/resources/scripts/axure/expr.js"></script>
+    <script src="/Doctor/resources/scripts/axure/geometry.js"></script>
+    <script src="/Doctor/resources/scripts/axure/flyout.js"></script>
+    <script src="/Doctor/resources/scripts/axure/model.js"></script>
+    <script src="/Doctor/resources/scripts/axure/repeater.js"></script>
+    <script src="/Doctor/resources/scripts/axure/sto.js"></script>
+    <script src="/Doctor/resources/scripts/axure/utils.temp.js"></script>
+    <script src="/Doctor/resources/scripts/axure/variables.js"></script>
+    <script src="/Doctor/resources/scripts/axure/drag.js"></script>
+    <script src="/Doctor/resources/scripts/axure/move.js"></script>
+    <script src="/Doctor/resources/scripts/axure/visibility.js"></script>
+    <script src="/Doctor/resources/scripts/axure/style.js"></script>
+    <script src="/Doctor/resources/scripts/axure/adaptive.js"></script>
+    <script src="/Doctor/resources/scripts/axure/tree.js"></script>
+    <script src="/Doctor/resources/scripts/axure/init.temp.js"></script>
+    <script src="/Doctor/resources/scripts/axure/legacy.js"></script>
+    <script src="/Doctor/resources/scripts/axure/viewer.js"></script>
+    <script src="/Doctor/resources/scripts/axure/math.js"></script>
+    <script src="/Doctor/resources/scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="/Doctor/data/document.js"></script>
+    <script src="/Doctor/files/page_1/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return '/Doctor/resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return '/Doctor/resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return '/Doctor/resources/reload.html'; };
+    </script>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+
+    <script type="text/javascript">
+
+      // 开始看诊按钮
+      function BeginKanZhen() {
+        var allboxes = document.getElementsByName("boxes");
+        var num = parseInt("0");
+        for(var i=0;i<allboxes.length;i++){
+          if (allboxes[i].checked == true){
+            num = num + 1;
+          }
+        }
+
+        if (num == 0){
+          alert("请选择1名患者进行看诊！")
+        }
+        if (num > 1){
+          alert("只能选择1名患者！")
+        }
+        if (num == 1){
+          for(var j=0;j<allboxes.length;j++){
+            if (allboxes[j].checked == true){
+              var id = allboxes[j].id + "1";
+              var name = document.getElementById(id).innerText;
+              document.getElementById("u21_input").value = name+"      "+allboxes[j].id+"";
+            }
+          }
+        }
+      }
+
+
+      // 开始开药按钮
+      function BeginKaiYao() {
+        var allboxes = document.getElementsByName("boxes2");
+        var num = parseInt("0");
+        for(var i=0;i<allboxes.length;i++){
+          if (allboxes[i].checked == true){
+            num = num + 1;
+          }
+        }
+        if (num == 0){
+          alert("请选择1名患者进行开药！")
+        }
+        if (num > 1){
+          alert("只能选择1名患者！")
+        }
+        if (num == 1){
+          for(var j=0;j<allboxes.length;j++){
+            if (allboxes[j].checked == true){
+              var id = allboxes[j].id + "1";
+              var name = document.getElementById(id).innerText;
+              document.getElementById("u85_input").value = name+"      "+id.substr(0,6)+"";
+            }
+          }
+        }
+      }
+
+
+      function success() {
+        alert("提交成功！");
+      }
+      function success2() {
+        alert("开立成功！");
+      }
+
+    </script>
+
+  </head>
+
+
+
+  <body>
+
+  <!--头部导航栏-->
+  <nav class="navbar navbar-light sticky-top bg-primary flex-md-nowrap p-0">
+    <input style="height: 32px; color: white; background-color: white; border-color: white" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <a style="color: white; height: 32px" class="nav-link" th:href="@{/logout}">退出</a>
+      </li>
+    </ul>
+  </nav>
+
+
+    <div id="base" class="">
+
+      <!-- 未诊患者矩形 (矩形) -->
+      <div id="u0" class="ax_default box_1" data-label="未诊患者矩形">
+        <div id="u0_div" class="">
+
+          <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+              <th>病历号</th>
+              <th>姓名</th>
+              <th>看诊</th>
+            </tr >
+            </thead>
+            <tbody>
+            <tr style="color: #290599" th:each="patient:${waitPatients}">
+              <td th:text="${patient.getMedRID()}"></td>
+              <td th:id="${patient.getMedRID()+'1'}" th:text="${patient.getNAME()}"></td>
+              <td>
+                <input th:id="${patient.getMedRID()}" name="boxes" type="checkbox">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Tabs (组合) -->
+      <div id="u1" class="ax_default" data-label="Tabs" data-left="355" data-top="37" data-width="212" data-height="40">
+
+        <!-- Tab Label 2 (矩形) -->
+        <div id="u2" class="ax_default box_3" data-label="Tab Label 2" selectiongroup="Tabs">
+          <div id="u2_div" class=""></div>
+          <div id="u2_text" class="text ">
+            <p><span>成药处方</span></p>
+          </div>
+        </div>
+
+        <!-- Tab Label 1 (矩形) -->
+        <div id="u3" class="ax_default box_3 selected" data-label="Tab Label 1" selectiongroup="Tabs">
+          <div id="u3_div" class="selected"></div>
+          <div id="u3_text" class="text ">
+            <p><span>病历首页</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs (组合) -->
+      <div id="u4" class="ax_default" data-label="Tabs" data-left="345" data-top="76" data-width="1039" data-height="652">
+
+        <!-- Tab Panels (动态面板) -->
+        <div id="u5" class="ax_default" data-label="Tab Panels">
+          <div id="u5_state0" class="panel_state" data-label="病例首页" style="">
+            <div id="u5_state0_content" class="panel_state_content">
+
+              <form th:action="@{/KanZhen1}">
+              <!-- Unnamed (矩形) -->
+              <div id="u6" class="ax_default box_1">
+                <div id="u6_div" class=""></div>
+                <div id="u6_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- 病例首页提交矩形 (矩形) -->
+              <div id="u7" class="ax_default box_1" data-label="病例首页提交矩形" style="display:none; visibility: hidden">
+                <div style="border-color: white" id="u7_div" class="">
+                  <button onclick="success()" type="submit" style="background-color: rgba(22, 155, 213, 1); color: white; width: 120px; height: 40px">提交</button>
+                </div>
+
+              </div>
+
+              <!-- 病例首页清空矩形 (矩形) -->
+              <div id="u8" class="ax_default box_1" data-label="病例首页清空矩形" style="display:none; visibility: hidden">
+                <div style="border-color: white" id="u8_div" class="">
+                  <button type="reset" style="background-color: rgba(22, 155, 213, 1); color: white; width: 120px; height: 40px">清空</button>
+                </div>
+
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u9" class="ax_default label">
+                <div id="u9_div" class=""></div>
+                <div id="u9_text" class="text ">
+                  <p><span>主诉</span></p>
+                </div>
+              </div>
+
+              <!-- 主诉 (文本框(单行)) -->
+              <div id="u10" class="ax_default text_field" data-label="主诉">
+                <div id="u10_div" class=""></div>
+                <input name="Statement" id="u10_input" type="text" value="" class="u10_input"/>
+              </div>
+
+              <!-- 现病史 (文本框(多行)) -->
+              <div id="u11" class="ax_default text_area" data-label="现病史">
+                <div id="u11_div" class=""></div>
+                <textarea name="CurrentDiseaseHistory" id="u11_input" class="u11_input"></textarea>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u12" class="ax_default label">
+                <div id="u12_div" class=""></div>
+                <div id="u12_text" class="text ">
+                  <p><span>现病史</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u13" class="ax_default label">
+                <div id="u13_div" class=""></div>
+                <div id="u13_text" class="text ">
+                  <p><span>现病治疗</span></p><p><span>情况</span></p>
+                </div>
+              </div>
+
+              <!-- 现病治疗情况 (文本框(多行)) -->
+              <div id="u14" class="ax_default text_area" data-label="现病治疗情况">
+                <div id="u14_div" class=""></div>
+                <textarea name="CurrentSituationOfDisease" id="u14_input" class="u14_input"></textarea>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u15" class="ax_default label">
+                <div id="u15_div" class=""></div>
+                <div id="u15_text" class="text ">
+                  <p><span>既往史</span></p>
+                </div>
+              </div>
+
+              <!-- 既往史 (文本框(多行)) -->
+              <div id="u16" class="ax_default text_area" data-label="既往史">
+                <div id="u16_div" class=""></div>
+                <textarea name="PastDiseaseHistory" id="u16_input" class="u16_input"></textarea>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u17" class="ax_default label">
+                <div id="u17_div" class=""></div>
+                <div id="u17_text" class="text ">
+                  <p><span>过敏史</span></p>
+                </div>
+              </div>
+
+              <!-- 过敏史 (文本框(多行)) -->
+              <div id="u18" class="ax_default text_area" data-label="过敏史">
+                <div id="u18_div" class=""></div>
+                <textarea name="AlleryHistory" id="u18_input" class="u18_input"></textarea>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u19" class="ax_default label">
+                <div id="u19_div" class=""></div>
+                <div id="u19_text" class="text ">
+                  <p><span>体格检查</span></p>
+                </div>
+              </div>
+
+              <!-- 体格检查 (文本框(多行)) -->
+              <div id="u20" class="ax_default text_area" data-label="体格检查">
+                <div id="u20_div" class=""></div>
+                <textarea name="BodyCheck" id="u20_input" class="u20_input"></textarea>
+              </div>
+
+              <!-- 病例首页当前患者 (文本框(单行)) -->
+              <div id="u21" class="ax_default text_field" data-label="病例首页当前患者">
+                <div id="u21_div" class=""></div>
+                <input name="MedID" id="u21_input" type="text" value="" class="u21_input"/>
+              </div>
+
+
+              <!-- Unnamed (矩形) -->
+              <div id="u22" class="ax_default label">
+                <div id="u22_div" class=""></div>
+                <div id="u22_text" class="text ">
+                  <p><span>当前患者</span></p>
+                </div>
+              </div>
+
+              </form>
+            </div>
+          </div>
+          <div id="u5_state1" class="panel_state" data-label="成药处方" style="visibility: hidden;">
+
+            <form th:action="@{/KaiYao}">
+            <div id="u5_state1_content" class="panel_state_content">
+
+              <!-- 开药页面开立矩形 (矩形) -->
+              <div id="u25" class="ax_default box_1 ax_default_hidden" data-label="开药页面开立矩形" style="display:none; visibility: hidden">
+                <div id="u25_div" class=""></div>
+                <div id="u25_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u26" class="ax_default label">
+                <div id="u26_div" class=""></div>
+                <div id="u26_text" class="text ">
+                  <p><span>处方开立确认</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u27" class="ax_default box_1">
+                <div id="u27_div" class=""></div>
+                <div id="u27_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- 开立处方 (中继器) -->
+              <div id="u28" class="ax_default" data-label="开立处方">
+                <script id="u28_script" type="axure-repeater-template" data-label="开立处方">
+
+                  <!-- 名称 (矩形) -->
+                  <div id="u29" class="ax_default _标题_3 u29" data-label="名称">
+                    <div id="u29_div" class="u29_div"></div>
+                    <div id="u29_text" class="text u29_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (直线 / 行距) -->
+                  <div id="u30" class="ax_default line1 u30">
+                    <img id="u30_img" class="img u30_img" src="/Doctor/images/page_1/u30.svg"/>
+                    <div id="u30_text" class="text u30_text" style="display:none; visibility: hidden">
+                      <p></p>
+                    </div>
+                  </div>
+
+                  <!-- 数量 (矩形) -->
+                  <div id="u31" class="ax_default _标题_3 u31" data-label="数量">
+                    <div id="u31_div" class="u31_div"></div>
+                    <div id="u31_text" class="text u31_text">
+                      <p><span>开立</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 删除处方 (矩形) -->
+                  <div id="u32" class="ax_default _标题_3 u32" data-label="删除处方">
+                    <div id="u32_div" class="u32_div"></div>
+                    <div id="u32_text" class="text u32_text">
+                      <p><span>删除</span></p>
+                    </div>
+                  </div>
+                </script>
+              </div>
+
+              <!-- Unnamed (直线 / 行距) -->
+              <div id="u33" class="ax_default line1">
+                <img id="u33_img" class="img " src="/Doctor/images/page_1/u33.svg"/>
+                <div id="u33_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u34" class="ax_default box_1">
+                <div id="u34_div" class=""></div>
+                <div id="u34_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- 处方模板 (中继器) -->
+              <div id="u35" class="ax_default" data-label="处方模板">
+                <script id="u35_script" type="axure-repeater-template" data-label="处方模板">
+
+                  <!-- 处方模板名称 (矩形) -->
+                  <div id="u36" class="ax_default _标题_3 u36" data-label="处方模板名称">
+                    <div id="u36_div" class="u36_div"></div>
+                    <div id="u36_text" class="text u36_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 数量1 (矩形) -->
+                  <div id="u37" class="ax_default _标题_3 u37" data-label="数量1">
+                    <div id="u37_div" class="u37_div"></div>
+                    <div id="u37_text" class="text u37_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (直线 / 行距) -->
+                  <div id="u38" class="ax_default line1 u38">
+                    <img id="u38_img" class="img u38_img" src="/Doctor/images/page_1/u38.svg"/>
+                    <div id="u38_text" class="text u38_text" style="display:none; visibility: hidden">
+                      <p></p>
+                    </div>
+                  </div>
+
+                  <!-- 使用1 (矩形) -->
+                  <div id="u39" class="ax_default _标题_3 u39" data-label="使用1">
+                    <div id="u39_div" class="u39_div"></div>
+                    <div id="u39_text" class="text u39_text">
+                      <p><span>使用</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 明细 (矩形) -->
+                  <div id="u40" class="ax_default _标题_3 u40" data-label="明细">
+                    <div id="u40_div" class="u40_div"></div>
+                    <div id="u40_text" class="text u40_text">
+                      <p><span>展示</span></p>
+                    </div>
+                  </div>
+                </script>
+                <div id="u35-1" class="preeval" style="width: 346px; height: 32px;">
+
+                  <!-- 处方模板名称 (矩形) -->
+                  <div id="u36-1" class="ax_default _标题_3 u36" data-label="处方模板名称" style="width: 56px; height: 19px; left: 1px; top: 3px;visibility: inherit">
+                    <div id="u36-1_div" class="u36_div" style="width: 56px; height: 19px;visibility: inherit"></div>
+                    <div id="u36-1_text" class="text u36_text" style="visibility: inherit">
+                      <p><span>春季常发性感冒</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 数量1 (矩形) -->
+                  <div id="u37-1" class="ax_default _标题_3 u37" data-label="数量1" style="width: 56px; height: 19px; left: 117px; top: 3px;visibility: inherit">
+                    <div id="u37-1_div" class="u37_div" style="width: 56px; height: 19px;visibility: inherit"></div>
+                    <div id="u37-1_text" class="text u37_text" style="visibility: inherit">
+                      <p><span>全院</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (直线 / 行距) -->
+                  <div id="u38-1" class="ax_default line1 u38" style="width: 347px; height: 1px; left: -1px; top: 31px;visibility: inherit">
+                    <img id="u38-1_img" class="img u38_img" src="/Doctor/images/page_1/u38.svg"/>
+                    <div id="u38-1_text" class="text u38_text" style="display:none; visibility: hidden">
+                      <p></p>
+                    </div>
+                  </div>
+
+                  <!-- 使用1 (矩形) -->
+                  <div id="u39-1" class="ax_default _标题_3 u39" data-label="使用1" style="width: 28px; height: 19px; left: 270px; top: 3px;visibility: inherit">
+                    <div id="u39-1_div" class="u39_div" style="width: 28px; height: 19px;visibility: inherit"></div>
+                    <div id="u39-1_text" class="text u39_text" style="visibility: inherit">
+                      <p><span>使用</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 明细 (矩形) -->
+                  <div id="u40-1" class="ax_default _标题_3 u40" data-label="明细" style="width: 28px; height: 19px; left: 194px; top: 3px;visibility: inherit">
+                    <div id="u40-1_div" class="u40_div" style="width: 28px; height: 19px;visibility: inherit"></div>
+                    <div id="u40-1_text" class="text u40_text" style="visibility: inherit">
+                      <p><span>展示</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div id="u35-2" class="preeval" style="width: 346px; height: 32px;">
+
+                  <!-- 处方模板名称 (矩形) -->
+                  <div id="u36-2" class="ax_default _标题_3 u36" data-label="处方模板名称" style="width: 56px; height: 19px; left: 1px; top: 3px;visibility: inherit">
+                    <div id="u36-2_div" class="u36_div" style="width: 56px; height: 19px;visibility: inherit"></div>
+                    <div id="u36-2_text" class="text u36_text" style="visibility: inherit">
+                      <p><span>念珠菌性皮炎</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 数量1 (矩形) -->
+                  <div id="u37-2" class="ax_default _标题_3 u37" data-label="数量1" style="width: 56px; height: 19px; left: 117px; top: 3px;visibility: inherit">
+                    <div id="u37-2_div" class="u37_div" style="width: 56px; height: 19px;visibility: inherit"></div>
+                    <div id="u37-2_text" class="text u37_text" style="visibility: inherit">
+                      <p><span>科室</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (直线 / 行距) -->
+                  <div id="u38-2" class="ax_default line1 u38" style="width: 347px; height: 1px; left: -1px; top: 31px;visibility: inherit">
+                    <img id="u38-2_img" class="img u38_img" src="/Doctor/images/page_1/u38.svg"/>
+                    <div id="u38-2_text" class="text u38_text" style="display:none; visibility: hidden">
+                      <p></p>
+                    </div>
+                  </div>
+
+                  <!-- 使用1 (矩形) -->
+                  <div id="u39-2" class="ax_default _标题_3 u39" data-label="使用1" style="width: 28px; height: 19px; left: 270px; top: 3px;visibility: inherit">
+                    <div id="u39-2_div" class="u39_div" style="width: 28px; height: 19px;visibility: inherit"></div>
+                    <div id="u39-2_text" class="text u39_text" style="visibility: inherit">
+                      <p><span>使用</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 明细 (矩形) -->
+                  <div id="u40-2" class="ax_default _标题_3 u40" data-label="明细" style="width: 28px; height: 19px; left: 194px; top: 3px;visibility: inherit">
+                    <div id="u40-2_div" class="u40_div" style="width: 28px; height: 19px;visibility: inherit"></div>
+                    <div id="u40-2_text" class="text u40_text" style="visibility: inherit">
+                      <p><span>展示</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div id="u35-3" class="preeval" style="width: 346px; height: 32px;">
+
+                  <!-- 处方模板名称 (矩形) -->
+                  <div id="u36-3" class="ax_default _标题_3 u36" data-label="处方模板名称" style="width: 56px; height: 19px; left: 1px; top: 3px;visibility: inherit">
+                    <div id="u36-3_div" class="u36_div" style="width: 56px; height: 19px;visibility: inherit"></div>
+                    <div id="u36-3_text" class="text u36_text" style="visibility: inherit">
+                      <p><span>病毒性胃肠炎</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 数量1 (矩形) -->
+                  <div id="u37-3" class="ax_default _标题_3 u37" data-label="数量1" style="width: 56px; height: 19px; left: 117px; top: 3px;visibility: inherit">
+                    <div id="u37-3_div" class="u37_div" style="width: 56px; height: 19px;visibility: inherit"></div>
+                    <div id="u37-3_text" class="text u37_text" style="visibility: inherit">
+                      <p><span>科室</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (直线 / 行距) -->
+                  <div id="u38-3" class="ax_default line1 u38" style="width: 347px; height: 1px; left: -1px; top: 31px;visibility: inherit">
+                    <img id="u38-3_img" class="img u38_img" src="/Doctor/images/page_1/u38.svg"/>
+                    <div id="u38-3_text" class="text u38_text" style="display:none; visibility: hidden">
+                      <p></p>
+                    </div>
+                  </div>
+
+                  <!-- 使用1 (矩形) -->
+                  <div id="u39-3" class="ax_default _标题_3 u39" data-label="使用1" style="width: 28px; height: 19px; left: 270px; top: 3px;visibility: inherit">
+                    <div id="u39-3_div" class="u39_div" style="width: 28px; height: 19px;visibility: inherit"></div>
+                    <div id="u39-3_text" class="text u39_text" style="visibility: inherit">
+                      <p><span>使用</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 明细 (矩形) -->
+                  <div id="u40-3" class="ax_default _标题_3 u40" data-label="明细" style="width: 28px; height: 19px; left: 194px; top: 3px;visibility: inherit">
+                    <div id="u40-3_div" class="u40_div" style="width: 28px; height: 19px;visibility: inherit"></div>
+                    <div id="u40-3_text" class="text u40_text" style="visibility: inherit">
+                      <p><span>展示</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u41" class="ax_default _标题_3">
+                <div id="u41_div" class=""></div>
+                <div id="u41_text" class="text ">
+                  <p><span>范围</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (形状) -->
+              <div id="u42" class="ax_default line1">
+                <img id="u42_img" class="img " src="/Doctor//page_1/u42.svg"/>
+                <div id="u42_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u43" class="ax_default _标题_3">
+                <div id="u43_div" class=""></div>
+                <div id="u43_text" class="text ">
+                  <p><span>操作</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u44" class="ax_default _标题_3">
+                <div id="u44_div" class=""></div>
+                <div id="u44_text" class="text ">
+                  <p><span>操作</span></p>
+                </div>
+              </div>
+
+              <!-- 最终1个处方 (文本框(单行)) -->
+              <div id="u45" class="ax_default text_field" data-label="最终1个处方">
+                <div id="u45_div" class=""></div>
+                <input name="chufang_name" id="u45_input" type="text" value="" class="u45_input"/>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u46" class="ax_default box_1">
+                <div id="u46_div" class=""></div>
+                <div id="u46_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- 药品 (中继器) -->
+              <div id="u47" class="ax_default" data-label="药品">
+                <script id="u47_script" type="axure-repeater-template" data-label="药品">
+
+                  <!-- 药品名称 (矩形) -->
+                  <div id="u48" class="ax_default _标题_3 u48" data-label="药品名称">
+                    <div id="u48_div" class="u48_div"></div>
+                    <div id="u48_text" class="text u48_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 用法 (矩形) -->
+                  <div id="u49" class="ax_default _标题_3 u49" data-label="用法">
+                    <div id="u49_div" class="u49_div"></div>
+                    <div id="u49_text" class="text u49_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (直线 / 行距) -->
+                  <div id="u50" class="ax_default line1 u50">
+                    <img id="u50_img" class="img u50_img" src="/Doctor/images/page_1/u50.svg"/>
+                    <div id="u50_text" class="text u50_text" style="display:none; visibility: hidden">
+                      <p></p>
+                    </div>
+                  </div>
+
+                  <!-- 规格 (矩形) -->
+                  <div id="u51" class="ax_default _标题_3 u51" data-label="规格">
+                    <div id="u51_div" class="u51_div"></div>
+                    <div id="u51_text" class="text u51_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 单位 (矩形) -->
+                  <div id="u52" class="ax_default _标题_3 u52" data-label="单位">
+                    <div id="u52_div" class="u52_div"></div>
+                    <div id="u52_text" class="text u52_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 频次 (矩形) -->
+                  <div id="u53" class="ax_default _标题_3 u53" data-label="频次">
+                    <div id="u53_div" class="u53_div"></div>
+                    <div id="u53_text" class="text u53_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+
+                  <!-- 用量 (矩形) -->
+                  <div id="u54" class="ax_default _标题_3 u54" data-label="用量">
+                    <div id="u54_div" class="u54_div"></div>
+                    <div id="u54_text" class="text u54_text">
+                      <p><span>三级标题</span></p>
+                    </div>
+                  </div>
+                </script>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u55" class="ax_default _标题_3">
+                <div id="u55_div" class=""></div>
+                <div id="u55_text" class="text ">
+                  <p><span>药品名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u56" class="ax_default _标题_3">
+                <div id="u56_div" class=""></div>
+                <div id="u56_text" class="text ">
+                  <p><span>规格</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (直线 / 行距) -->
+              <div id="u57" class="ax_default line1">
+                <img id="u57_img" class="img " src="/Doctor/images/page_1/u57.svg"/>
+                <div id="u57_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u58" class="ax_default _标题_3">
+                <div id="u58_div" class=""></div>
+                <div id="u58_text" class="text ">
+                  <p><span>单位</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u59" class="ax_default _标题_3">
+                <div id="u59_div" class=""></div>
+                <div id="u59_text" class="text ">
+                  <p><span>用法</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u60" class="ax_default label">
+                <div id="u60_div" class=""></div>
+                <div id="u60_text" class="text ">
+                  <p><span>用量</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u61" class="ax_default label">
+                <div id="u61_div" class=""></div>
+                <div id="u61_text" class="text ">
+                  <p><span>频次</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u62" class="ax_default _标题_2">
+                <div id="u62_div" class=""></div>
+                <div id="u62_text" class="text ">
+                  <p><span>模板明细</span></p>
+                </div>
+              </div>
+
+              <!-- 删方按钮 (矩形) -->
+              <div id="u63" class="ax_default primary_button" data-label="删方按钮">
+                <div id="u63_div" class=""></div>
+                <div id="u63_text" class="text ">
+                  <p><span>删方</span></p>
+                </div>
+              </div>
+
+              <!-- 增方按钮 (矩形) -->
+              <div id="u64" class="ax_default primary_button" data-label="增方按钮">
+                <div id="u64_div" class=""></div>
+                <div id="u64_text" class="text ">
+                  <p><span>增方</span></p>
+                </div>
+              </div>
+
+              <!-- 删方面板 (动态面板) -->
+              <div id="u65" class="ax_default ax_default_hidden" data-label="删方面板" style="display:none; visibility: hidden">
+                <div id="u65_state0" class="panel_state" data-label="状态1" style="">
+                  <div id="u65_state0_content" class="panel_state_content">
+
+                    <!-- 改变处方名称删方 (文本框(单行)) -->
+                    <div id="u66" class="ax_default text_field" data-label="改变处方名称删方">
+                      <div id="u66_div" class=""></div>
+                      <input id="u66_input" type="text" value="" class="u66_input"/>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u67" class="ax_default _标题_3">
+                      <div id="u67_div" class=""></div>
+                      <div id="u67_text" class="text ">
+                        <p><span>请输入要删除的处方名称</span></p>
+                      </div>
+                    </div>
+
+                    <!-- 删方确认按钮 (矩形) -->
+                    <div id="u68" class="ax_default primary_button" data-label="删方确认按钮">
+                      <div id="u68_div" class=""></div>
+                      <div id="u68_text" class="text ">
+                        <p><span>确定</span></p>
+                      </div>
+                    </div>
+
+                    <!-- 删方取消按钮 (矩形) -->
+                    <div id="u69" class="ax_default primary_button" data-label="删方取消按钮">
+                      <div id="u69_div" class=""></div>
+                      <div id="u69_text" class="text ">
+                        <p><span>取消</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 处方变化成功 (动态面板) -->
+              <div id="u70" class="ax_default ax_default_hidden" data-label="处方变化成功" style="display:none; visibility: hidden">
+                <div id="u70_state0" class="panel_state" data-label="状态1" style="">
+                  <div id="u70_state0_content" class="panel_state_content">
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u71" class="ax_default _标题_3">
+                      <div id="u71_div" class=""></div>
+                      <div id="u71_text" class="text ">
+                        <p><span>操作成功！</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u72" class="ax_default _标题_3">
+                <div id="u72_div" class=""></div>
+                <div id="u72_text" class="text ">
+                  <p><span>操作</span></p>
+                </div>
+              </div>
+
+              <!-- 开立按钮 (矩形) -->
+              <div id="u73" class="ax_default" data-label="开立按钮">
+
+                  <button onclick="success2()" type="submit" style="width:110px;height:35px;color: white;font-weight: bold; background-color:rgb(241,156,8)">开立</button>
+
+
+              </div>
+
+              <!-- 处方开立成功 (动态面板) -->
+              <div id="u74" class="ax_default ax_default_hidden" data-label="处方开立成功" style="display:none; visibility: hidden">
+                <div id="u74_state0" class="panel_state" data-label="状态1" style="">
+                  <div id="u74_state0_content" class="panel_state_content">
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u75" class="ax_default _标题_3">
+                      <div id="u75_div" class=""></div>
+                      <div id="u75_text" class="text ">
+                        <p><span>开立成功！</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u76" class="ax_default _标题_3">
+                <div id="u76_div" class=""></div>
+                <div id="u76_text" class="text ">
+                  <p><span>模板名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u77" class="ax_default _标题_3">
+                <div id="u77_div" class=""></div>
+                <div id="u77_text" class="text ">
+                  <p><span>模板名称</span></p>
+                </div>
+              </div>
+
+              <!-- 增方面板 (动态面板) -->
+              <div id="u78" class="ax_default ax_default_hidden" data-label="增方面板" style="display:none; visibility: hidden">
+                <div id="u78_state0" class="panel_state" data-label="状态1" style="">
+                  <div id="u78_state0_content" class="panel_state_content">
+
+                    <!-- 改变处方名称增方 (文本框(单行)) -->
+                    <div id="u79" class="ax_default text_field" data-label="改变处方名称增方">
+                      <div id="u79_div" class=""></div>
+                      <input id="u79_input" type="text" value="" class="u79_input"/>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u80" class="ax_default _标题_3">
+                      <div id="u80_div" class=""></div>
+                      <div id="u80_text" class="text ">
+                        <p><span>请输入增加的处方名称</span></p>
+                      </div>
+                    </div>
+
+                    <!-- 增方确认按钮 (矩形) -->
+                    <div id="u81" class="ax_default primary_button" data-label="增方确认按钮">
+                      <div id="u81_div" class=""></div>
+                      <div id="u81_text" class="text ">
+                        <p><span>确定</span></p>
+                      </div>
+                    </div>
+
+                    <!-- 增方取消按钮 (矩形) -->
+                    <div id="u82" class="ax_default primary_button" data-label="增方取消按钮">
+                      <div id="u82_div" class=""></div>
+                      <div id="u82_text" class="text ">
+                        <p><span>取消</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u83" class="ax_default _标题_2">
+                <div id="u83_div" class=""></div>
+                <div id="u83_text" class="text ">
+                  <p><span>处方模板</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u84" class="ax_default _标题_2">
+                <div id="u84_div" class=""></div>
+                <div id="u84_text" class="text ">
+                  <p><span>门诊处方</span></p>
+                </div>
+              </div>
+
+              <!-- 处方页面当前患者 (文本框(单行)) -->
+              <div id="u85" class="ax_default text_field" data-label="处方页面当前患者">
+                <div id="u85_div" class=""></div>
+                <input name="p_MedID" id="u85_input" type="text" value="" class="u85_input"/>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u86" class="ax_default label">
+                <div id="u86_div" class=""></div>
+                <div id="u86_text" class="text ">
+                  <p><span>当前患者</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u87" class="ax_default _标题_3">
+                <div id="u87_div" class=""></div>
+                <div id="u87_text" class="text ">
+                  <p><span>展示明细</span></p>
+                </div>
+              </div>
+
+              <!-- 选择药品 (动态面板) -->
+              <div id="u88" class="ax_default ax_default_hidden" data-label="选择药品" style="display:none; visibility: hidden">
+                <div id="u88_state0" class="panel_state" data-label="状态1" style="">
+                  <div id="u88_state0_content" class="panel_state_content">
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u89" class="ax_default box_2">
+                      <div id="u89_div" class=""></div>
+                      <div id="u89_text" class="text " style="display:none; visibility: hidden">
+                        <p></p>
+                      </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u90" class="ax_default _标题_3">
+                      <div id="u90_div" class=""></div>
+                      <div id="u90_text" class="text ">
+                        <p><span>请选择药品（不能超过5种）</span></p>
+                      </div>
+                    </div>
+
+                    <!-- 药品1号 (下拉列表框) -->
+                    <div id="u91" class="ax_default droplist" data-label="药品1号">
+                      <div id="u91_div" class=""></div>
+                      <select id="u91_input" class="u91_input">
+                        <option class="u91_input_option" value="空">空</option>
+                        <option class="u91_input_option" value="注射用甲氨喋呤">注射用甲氨喋呤</option>
+                        <option class="u91_input_option" value="氟康唑氯化钠注射液(大扶康)">氟康唑氯化钠注射液(大扶康)</option>
+                        <option class="u91_input_option" value="50%葡萄糖注射液(塑瓶)">50%葡萄糖注射液(塑瓶)</option>
+                        <option class="u91_input_option" value="盐酸特比萘芬泡腾片（丁克）">盐酸特比萘芬泡腾片（丁克）</option>
+                        <option class="u91_input_option" value="红芪冲剂">红芪冲剂</option>
+                        <option class="u91_input_option" value="盐酸氨酮戊酸散（外用）">盐酸氨酮戊酸散（外用）</option>
+                        <option class="u91_input_option" value="盐酸美金刚片(易贝申)">盐酸美金刚片(易贝申)</option>
+                        <option class="u91_input_option" value="磷酸奥司他韦胶囊(达菲)">磷酸奥司他韦胶囊(达菲)</option>
+                        <option class="u91_input_option" value="泽泻颗粒">泽泻颗粒</option>
+                        <option class="u91_input_option" value="山药颗粒">山药颗粒</option>
+                        <option class="u91_input_option" value="熟大黄颗粒">熟大黄颗粒</option>
+                        <option class="u91_input_option" value="黄连颗粒">黄连颗粒</option>
+                        <option class="u91_input_option" value="黄芩颗粒(酒)">黄芩颗粒(酒)</option>
+                        <option class="u91_input_option" value="炒白芍颗粒">炒白芍颗粒</option>
+                        <option class="u91_input_option" value="炒白术颗粒">炒白术颗粒</option>
+                        <option class="u91_input_option" value="白芷颗粒">白芷颗粒</option>
+                        <option class="u91_input_option" value="薤白颗粒">薤白颗粒</option>
+                        <option class="u91_input_option" value="川芎颗粒">川芎颗粒</option>
+                        <option class="u91_input_option" value="维生素K1注射液">维生素K1注射液</option>
+                        <option class="u91_input_option" value="利培酮片（维思通）">利培酮片（维思通）</option>
+                        <option class="u91_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u91_input_option" value="0.9%氯化钠注射液（百特）">0.9%氯化钠注射液（百特）</option>
+                        <option class="u91_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u91_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u91_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u91_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u91_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u91_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u91_input_option" value="胃苏颗粒">胃苏颗粒</option>
+                        <option class="u91_input_option" value="复方甘露醇注射液(伸宁)">复方甘露醇注射液(伸宁)</option>
+                        <option class="u91_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u91_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u91_input_option" value="丹参颗粒">丹参颗粒</option>
+                        <option class="u91_input_option" value="亮菌甲素注射液">亮菌甲素注射液</option>
+                        <option class="u91_input_option" value="瞿麦">瞿麦</option>
+                        <option class="u91_input_option" value="肠内营养粉剂(安素)">肠内营养粉剂(安素)</option>
+                        <option class="u91_input_option" value="桉叶油">桉叶油</option>
+                        <option class="u91_input_option" value="肉苁蓉">肉苁蓉</option>
+                        <option class="u91_input_option" value="番木鳖酊">番木鳖酊</option>
+                        <option class="u91_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u91_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u91_input_option" value="酚红(AR)">酚红(AR)</option>
+                        <option class="u91_input_option" value="酚红IND">酚红IND</option>
+                        <option class="u91_input_option" value="酚酞">酚酞</option>
+                        <option class="u91_input_option" value="蜂蜡">蜂蜡</option>
+                        <option class="u91_input_option" value="呋喃西林">呋喃西林</option>
+                        <option class="u91_input_option" value="氯雷他定糖浆(开瑞坦)">氯雷他定糖浆(开瑞坦)</option>
+                        <option class="u91_input_option" value="丙泊酚注射液(得普利麻)">丙泊酚注射液(得普利麻)</option>
+                        <option class="u91_input_option" value="BG维生素E软胶囊">BG维生素E软胶囊</option>
+                        <option class="u91_input_option" value="贝前列素钠片">贝前列素钠片</option>
+                        <option class="u91_input_option" value="盐酸伊立替康注射液(开普拓）">盐酸伊立替康注射液(开普拓）</option>
+                        <option class="u91_input_option" value="磺胺(AR)">磺胺(AR)</option>
+                        <option class="u91_input_option" value="白附子">白附子</option>
+                        <option class="u91_input_option" value="白癫风胶囊">白癫风胶囊</option>
+                        <option class="u91_input_option" value="奋乃静片">奋乃静片</option>
+                        <option class="u91_input_option" value="注射用头孢他啶(复达欣)">注射用头孢他啶(复达欣)</option>
+                        <option class="u91_input_option" value="复方氨基酸(绿支安)18AA注射液">复方氨基酸(绿支安)18AA注射液</option>
+                        <option class="u91_input_option" value="吡诺克辛滴眼液(卡林-U)">吡诺克辛滴眼液(卡林-U)</option>
+                        <option class="u91_input_option" value="卡巴胆碱注射液（卡米可林）">卡巴胆碱注射液（卡米可林）</option>
+                        <option class="u91_input_option" value="重组人粒细胞(特尔立)巨噬细胞集落冻干粉针">重组人粒细胞(特尔立)巨噬细胞集落冻干粉针</option>
+                        <option class="u91_input_option" value="哌拉西林他唑巴坦钠(特治星)">哌拉西林他唑巴坦钠(特治星)</option>
+                        <option class="u91_input_option" value="地黄颗粒">地黄颗粒</option>
+                        <option class="u91_input_option" value="当归颗粒">当归颗粒</option>
+                        <option class="u91_input_option" value="维生素B1注射液">维生素B1注射液</option>
+                        <option class="u91_input_option" value="芒硝颗粒">芒硝颗粒</option>
+                        <option class="u91_input_option" value="生大黄颗粒">生大黄颗粒</option>
+                        <option class="u91_input_option" value="虎杖颗粒">虎杖颗粒</option>
+                        <option class="u91_input_option" value="鱼腥草颗粒">鱼腥草颗粒</option>
+                        <option class="u91_input_option" value="苦参颗粒">苦参颗粒</option>
+                        <option class="u91_input_option" value="硫酸镁注射液">硫酸镁注射液</option>
+                        <option class="u91_input_option" value="胡黄连">胡黄连</option>
+                        <option class="u91_input_option" value="虎杖">虎杖</option>
+                        <option class="u91_input_option" value="聚桂醇注射液">聚桂醇注射液</option>
+                        <option class="u91_input_option" value="康肤冲剂(I)">康肤冲剂(I)</option>
+                        <option class="u91_input_option" value="注射用头孢哌酮舒巴坦(舒普深)">注射用头孢哌酮舒巴坦(舒普深)</option>
+                        <option class="u91_input_option" value="清热通淋片">清热通淋片</option>
+                        <option class="u91_input_option" value="康莱特注射液">康莱特注射液</option>
+                        <option class="u91_input_option" value="山茨菇">山茨菇</option>
+                        <option class="u91_input_option" value="马来酸桂哌齐特注射液(克林澳)">马来酸桂哌齐特注射液(克林澳)</option>
+                        <option class="u91_input_option" value="氯化镁">氯化镁</option>
+                        <option class="u91_input_option" value="呋塞米注射液(速尿)">呋塞米注射液(速尿)</option>
+                        <option class="u91_input_option" value="注射用奈达铂（奥先达）">注射用奈达铂（奥先达）</option>
+                        <option class="u91_input_option" value="注射用夫西地酸钠">注射用夫西地酸钠</option>
+                        <option class="u91_input_option" value="阳起石">阳起石</option>
+                        <option class="u91_input_option" value="铜绿假单胞菌注射液">铜绿假单胞菌注射液</option>
+                        <option class="u91_input_option" value="盐酸氟西汀胶囊(百忧解)">盐酸氟西汀胶囊(百忧解)</option>
+                        <option class="u91_input_option" value="10%氯化钠注射液">10%氯化钠注射液</option>
+                        <option class="u91_input_option" value="注射用替考拉宁(他格适)">注射用替考拉宁(他格适)</option>
+                        <option class="u91_input_option" value="石决明">石决明</option>
+                        <option class="u91_input_option" value="石榴皮">石榴皮</option>
+                        <option class="u91_input_option" value="熟地">熟地</option>
+                        <option class="u91_input_option" value="水牛角片">水牛角片</option>
+                        <option class="u91_input_option" value="水蜈蚣">水蜈蚣</option>
+                        <option class="u91_input_option" value="水蛭">水蛭</option>
+                        <option class="u91_input_option" value="苏梗">苏梗</option>
+                        <option class="u91_input_option" value="苏木">苏木</option>
+                        <option class="u91_input_option" value="太子参">太子参</option>
+                        <option class="u91_input_option" value="檀香">檀香</option>
+                        <option class="u91_input_option" value="桃仁">桃仁</option>
+                        <option class="u91_input_option" value="天冬">天冬</option>
+                      </select>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u92" class="ax_default label">
+                      <div id="u92_div" class=""></div>
+                      <div id="u92_text" class="text ">
+                        <p><span>药品1</span></p>
+                      </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u93" class="ax_default label">
+                      <div id="u93_div" class=""></div>
+                      <div id="u93_text" class="text ">
+                        <p><span>药品2</span></p>
+                      </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u94" class="ax_default label">
+                      <div id="u94_div" class=""></div>
+                      <div id="u94_text" class="text ">
+                        <p><span>药品3</span></p>
+                      </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u95" class="ax_default label">
+                      <div id="u95_div" class=""></div>
+                      <div id="u95_text" class="text ">
+                        <p><span>药品5</span></p>
+                      </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u96" class="ax_default label">
+                      <div id="u96_div" class=""></div>
+                      <div id="u96_text" class="text ">
+                        <p><span>药品4</span></p>
+                      </div>
+                    </div>
+
+                    <!-- 药品2号 (下拉列表框) -->
+                    <div id="u97" class="ax_default droplist" data-label="药品2号">
+                      <div id="u97_div" class=""></div>
+                      <select id="u97_input" class="u97_input">
+                        <option class="u97_input_option" value="空">空</option>
+                        <option class="u97_input_option" value="注射用甲氨喋呤">注射用甲氨喋呤</option>
+                        <option class="u97_input_option" value="氟康唑氯化钠注射液(大扶康)">氟康唑氯化钠注射液(大扶康)</option>
+                        <option class="u97_input_option" value="50%葡萄糖注射液(塑瓶)">50%葡萄糖注射液(塑瓶)</option>
+                        <option class="u97_input_option" value="盐酸特比萘芬泡腾片（丁克）">盐酸特比萘芬泡腾片（丁克）</option>
+                        <option class="u97_input_option" value="红芪冲剂">红芪冲剂</option>
+                        <option class="u97_input_option" value="盐酸氨酮戊酸散（外用）">盐酸氨酮戊酸散（外用）</option>
+                        <option class="u97_input_option" value="盐酸美金刚片(易贝申)">盐酸美金刚片(易贝申)</option>
+                        <option class="u97_input_option" value="磷酸奥司他韦胶囊(达菲)">磷酸奥司他韦胶囊(达菲)</option>
+                        <option class="u97_input_option" value="泽泻颗粒">泽泻颗粒</option>
+                        <option class="u97_input_option" value="山药颗粒">山药颗粒</option>
+                        <option class="u97_input_option" value="熟大黄颗粒">熟大黄颗粒</option>
+                        <option class="u97_input_option" value="黄连颗粒">黄连颗粒</option>
+                        <option class="u97_input_option" value="黄芩颗粒(酒)">黄芩颗粒(酒)</option>
+                        <option class="u97_input_option" value="炒白芍颗粒">炒白芍颗粒</option>
+                        <option class="u97_input_option" value="炒白术颗粒">炒白术颗粒</option>
+                        <option class="u97_input_option" value="白芷颗粒">白芷颗粒</option>
+                        <option class="u97_input_option" value="薤白颗粒">薤白颗粒</option>
+                        <option class="u97_input_option" value="川芎颗粒">川芎颗粒</option>
+                        <option class="u97_input_option" value="维生素K1注射液">维生素K1注射液</option>
+                        <option class="u97_input_option" value="利培酮片（维思通）">利培酮片（维思通）</option>
+                        <option class="u97_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u97_input_option" value="0.9%氯化钠注射液（百特）">0.9%氯化钠注射液（百特）</option>
+                        <option class="u97_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u97_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u97_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u97_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u97_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u97_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u97_input_option" value="胃苏颗粒">胃苏颗粒</option>
+                        <option class="u97_input_option" value="复方甘露醇注射液(伸宁)">复方甘露醇注射液(伸宁)</option>
+                        <option class="u97_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u97_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u97_input_option" value="丹参颗粒">丹参颗粒</option>
+                        <option class="u97_input_option" value="亮菌甲素注射液">亮菌甲素注射液</option>
+                        <option class="u97_input_option" value="瞿麦">瞿麦</option>
+                        <option class="u97_input_option" value="肠内营养粉剂(安素)">肠内营养粉剂(安素)</option>
+                        <option class="u97_input_option" value="桉叶油">桉叶油</option>
+                        <option class="u97_input_option" value="肉苁蓉">肉苁蓉</option>
+                        <option class="u97_input_option" value="番木鳖酊">番木鳖酊</option>
+                        <option class="u97_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u97_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u97_input_option" value="酚红(AR)">酚红(AR)</option>
+                        <option class="u97_input_option" value="酚红IND">酚红IND</option>
+                        <option class="u97_input_option" value="酚酞">酚酞</option>
+                        <option class="u97_input_option" value="蜂蜡">蜂蜡</option>
+                        <option class="u97_input_option" value="呋喃西林">呋喃西林</option>
+                        <option class="u97_input_option" value="氯雷他定糖浆(开瑞坦)">氯雷他定糖浆(开瑞坦)</option>
+                        <option class="u97_input_option" value="丙泊酚注射液(得普利麻)">丙泊酚注射液(得普利麻)</option>
+                        <option class="u97_input_option" value="BG维生素E软胶囊">BG维生素E软胶囊</option>
+                        <option class="u97_input_option" value="贝前列素钠片">贝前列素钠片</option>
+                        <option class="u97_input_option" value="盐酸伊立替康注射液(开普拓）">盐酸伊立替康注射液(开普拓）</option>
+                        <option class="u97_input_option" value="磺胺(AR)">磺胺(AR)</option>
+                        <option class="u97_input_option" value="白附子">白附子</option>
+                        <option class="u97_input_option" value="白癫风胶囊">白癫风胶囊</option>
+                        <option class="u97_input_option" value="奋乃静片">奋乃静片</option>
+                        <option class="u97_input_option" value="注射用头孢他啶(复达欣)">注射用头孢他啶(复达欣)</option>
+                        <option class="u97_input_option" value="复方氨基酸(绿支安)18AA注射液">复方氨基酸(绿支安)18AA注射液</option>
+                        <option class="u97_input_option" value="吡诺克辛滴眼液(卡林-U)">吡诺克辛滴眼液(卡林-U)</option>
+                        <option class="u97_input_option" value="卡巴胆碱注射液（卡米可林）">卡巴胆碱注射液（卡米可林）</option>
+                        <option class="u97_input_option" value="重组人粒细胞(特尔立)巨噬细胞集落冻干粉针">重组人粒细胞(特尔立)巨噬细胞集落冻干粉针</option>
+                        <option class="u97_input_option" value="哌拉西林他唑巴坦钠(特治星)">哌拉西林他唑巴坦钠(特治星)</option>
+                        <option class="u97_input_option" value="地黄颗粒">地黄颗粒</option>
+                        <option class="u97_input_option" value="当归颗粒">当归颗粒</option>
+                        <option class="u97_input_option" value="维生素B1注射液">维生素B1注射液</option>
+                        <option class="u97_input_option" value="芒硝颗粒">芒硝颗粒</option>
+                        <option class="u97_input_option" value="生大黄颗粒">生大黄颗粒</option>
+                        <option class="u97_input_option" value="虎杖颗粒">虎杖颗粒</option>
+                        <option class="u97_input_option" value="鱼腥草颗粒">鱼腥草颗粒</option>
+                        <option class="u97_input_option" value="苦参颗粒">苦参颗粒</option>
+                        <option class="u97_input_option" value="硫酸镁注射液">硫酸镁注射液</option>
+                        <option class="u97_input_option" value="胡黄连">胡黄连</option>
+                        <option class="u97_input_option" value="虎杖">虎杖</option>
+                        <option class="u97_input_option" value="聚桂醇注射液">聚桂醇注射液</option>
+                        <option class="u97_input_option" value="康肤冲剂(I)">康肤冲剂(I)</option>
+                        <option class="u97_input_option" value="注射用头孢哌酮舒巴坦(舒普深)">注射用头孢哌酮舒巴坦(舒普深)</option>
+                        <option class="u97_input_option" value="清热通淋片">清热通淋片</option>
+                        <option class="u97_input_option" value="康莱特注射液">康莱特注射液</option>
+                        <option class="u97_input_option" value="山茨菇">山茨菇</option>
+                        <option class="u97_input_option" value="马来酸桂哌齐特注射液(克林澳)">马来酸桂哌齐特注射液(克林澳)</option>
+                        <option class="u97_input_option" value="氯化镁">氯化镁</option>
+                        <option class="u97_input_option" value="呋塞米注射液(速尿)">呋塞米注射液(速尿)</option>
+                        <option class="u97_input_option" value="注射用奈达铂（奥先达）">注射用奈达铂（奥先达）</option>
+                        <option class="u97_input_option" value="注射用夫西地酸钠">注射用夫西地酸钠</option>
+                        <option class="u97_input_option" value="阳起石">阳起石</option>
+                        <option class="u97_input_option" value="铜绿假单胞菌注射液">铜绿假单胞菌注射液</option>
+                        <option class="u97_input_option" value="盐酸氟西汀胶囊(百忧解)">盐酸氟西汀胶囊(百忧解)</option>
+                        <option class="u97_input_option" value="10%氯化钠注射液">10%氯化钠注射液</option>
+                        <option class="u97_input_option" value="注射用替考拉宁(他格适)">注射用替考拉宁(他格适)</option>
+                        <option class="u97_input_option" value="石决明">石决明</option>
+                        <option class="u97_input_option" value="石榴皮">石榴皮</option>
+                        <option class="u97_input_option" value="熟地">熟地</option>
+                        <option class="u97_input_option" value="水牛角片">水牛角片</option>
+                        <option class="u97_input_option" value="水蜈蚣">水蜈蚣</option>
+                        <option class="u97_input_option" value="水蛭">水蛭</option>
+                        <option class="u97_input_option" value="苏梗">苏梗</option>
+                        <option class="u97_input_option" value="苏木">苏木</option>
+                        <option class="u97_input_option" value="太子参">太子参</option>
+                        <option class="u97_input_option" value="檀香">檀香</option>
+                        <option class="u97_input_option" value="桃仁">桃仁</option>
+                        <option class="u97_input_option" value="天冬">天冬</option>
+                      </select>
+                    </div>
+
+                    <!-- 药品3号 (下拉列表框) -->
+                    <div id="u98" class="ax_default droplist" data-label="药品3号">
+                      <div id="u98_div" class=""></div>
+                      <select id="u98_input" class="u98_input">
+                        <option class="u98_input_option" value="空">空</option>
+                        <option class="u98_input_option" value="注射用甲氨喋呤">注射用甲氨喋呤</option>
+                        <option class="u98_input_option" value="氟康唑氯化钠注射液(大扶康)">氟康唑氯化钠注射液(大扶康)</option>
+                        <option class="u98_input_option" value="50%葡萄糖注射液(塑瓶)">50%葡萄糖注射液(塑瓶)</option>
+                        <option class="u98_input_option" value="盐酸特比萘芬泡腾片（丁克）">盐酸特比萘芬泡腾片（丁克）</option>
+                        <option class="u98_input_option" value="红芪冲剂">红芪冲剂</option>
+                        <option class="u98_input_option" value="盐酸氨酮戊酸散（外用）">盐酸氨酮戊酸散（外用）</option>
+                        <option class="u98_input_option" value="盐酸美金刚片(易贝申)">盐酸美金刚片(易贝申)</option>
+                        <option class="u98_input_option" value="磷酸奥司他韦胶囊(达菲)">磷酸奥司他韦胶囊(达菲)</option>
+                        <option class="u98_input_option" value="泽泻颗粒">泽泻颗粒</option>
+                        <option class="u98_input_option" value="山药颗粒">山药颗粒</option>
+                        <option class="u98_input_option" value="熟大黄颗粒">熟大黄颗粒</option>
+                        <option class="u98_input_option" value="黄连颗粒">黄连颗粒</option>
+                        <option class="u98_input_option" value="黄芩颗粒(酒)">黄芩颗粒(酒)</option>
+                        <option class="u98_input_option" value="炒白芍颗粒">炒白芍颗粒</option>
+                        <option class="u98_input_option" value="炒白术颗粒">炒白术颗粒</option>
+                        <option class="u98_input_option" value="白芷颗粒">白芷颗粒</option>
+                        <option class="u98_input_option" value="薤白颗粒">薤白颗粒</option>
+                        <option class="u98_input_option" value="川芎颗粒">川芎颗粒</option>
+                        <option class="u98_input_option" value="维生素K1注射液">维生素K1注射液</option>
+                        <option class="u98_input_option" value="利培酮片（维思通）">利培酮片（维思通）</option>
+                        <option class="u98_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u98_input_option" value="0.9%氯化钠注射液（百特）">0.9%氯化钠注射液（百特）</option>
+                        <option class="u98_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u98_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u98_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u98_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u98_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u98_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u98_input_option" value="胃苏颗粒">胃苏颗粒</option>
+                        <option class="u98_input_option" value="复方甘露醇注射液(伸宁)">复方甘露醇注射液(伸宁)</option>
+                        <option class="u98_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u98_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u98_input_option" value="丹参颗粒">丹参颗粒</option>
+                        <option class="u98_input_option" value="亮菌甲素注射液">亮菌甲素注射液</option>
+                        <option class="u98_input_option" value="瞿麦">瞿麦</option>
+                        <option class="u98_input_option" value="肠内营养粉剂(安素)">肠内营养粉剂(安素)</option>
+                        <option class="u98_input_option" value="桉叶油">桉叶油</option>
+                        <option class="u98_input_option" value="肉苁蓉">肉苁蓉</option>
+                        <option class="u98_input_option" value="番木鳖酊">番木鳖酊</option>
+                        <option class="u98_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u98_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u98_input_option" value="酚红(AR)">酚红(AR)</option>
+                        <option class="u98_input_option" value="酚红IND">酚红IND</option>
+                        <option class="u98_input_option" value="酚酞">酚酞</option>
+                        <option class="u98_input_option" value="蜂蜡">蜂蜡</option>
+                        <option class="u98_input_option" value="呋喃西林">呋喃西林</option>
+                        <option class="u98_input_option" value="氯雷他定糖浆(开瑞坦)">氯雷他定糖浆(开瑞坦)</option>
+                        <option class="u98_input_option" value="丙泊酚注射液(得普利麻)">丙泊酚注射液(得普利麻)</option>
+                        <option class="u98_input_option" value="BG维生素E软胶囊">BG维生素E软胶囊</option>
+                        <option class="u98_input_option" value="贝前列素钠片">贝前列素钠片</option>
+                        <option class="u98_input_option" value="盐酸伊立替康注射液(开普拓）">盐酸伊立替康注射液(开普拓）</option>
+                        <option class="u98_input_option" value="磺胺(AR)">磺胺(AR)</option>
+                        <option class="u98_input_option" value="白附子">白附子</option>
+                        <option class="u98_input_option" value="白癫风胶囊">白癫风胶囊</option>
+                        <option class="u98_input_option" value="奋乃静片">奋乃静片</option>
+                        <option class="u98_input_option" value="注射用头孢他啶(复达欣)">注射用头孢他啶(复达欣)</option>
+                        <option class="u98_input_option" value="复方氨基酸(绿支安)18AA注射液">复方氨基酸(绿支安)18AA注射液</option>
+                        <option class="u98_input_option" value="吡诺克辛滴眼液(卡林-U)">吡诺克辛滴眼液(卡林-U)</option>
+                        <option class="u98_input_option" value="卡巴胆碱注射液（卡米可林）">卡巴胆碱注射液（卡米可林）</option>
+                        <option class="u98_input_option" value="重组人粒细胞(特尔立)巨噬细胞集落冻干粉针">重组人粒细胞(特尔立)巨噬细胞集落冻干粉针</option>
+                        <option class="u98_input_option" value="哌拉西林他唑巴坦钠(特治星)">哌拉西林他唑巴坦钠(特治星)</option>
+                        <option class="u98_input_option" value="地黄颗粒">地黄颗粒</option>
+                        <option class="u98_input_option" value="当归颗粒">当归颗粒</option>
+                        <option class="u98_input_option" value="维生素B1注射液">维生素B1注射液</option>
+                        <option class="u98_input_option" value="芒硝颗粒">芒硝颗粒</option>
+                        <option class="u98_input_option" value="生大黄颗粒">生大黄颗粒</option>
+                        <option class="u98_input_option" value="虎杖颗粒">虎杖颗粒</option>
+                        <option class="u98_input_option" value="鱼腥草颗粒">鱼腥草颗粒</option>
+                        <option class="u98_input_option" value="苦参颗粒">苦参颗粒</option>
+                        <option class="u98_input_option" value="硫酸镁注射液">硫酸镁注射液</option>
+                        <option class="u98_input_option" value="胡黄连">胡黄连</option>
+                        <option class="u98_input_option" value="虎杖">虎杖</option>
+                        <option class="u98_input_option" value="聚桂醇注射液">聚桂醇注射液</option>
+                        <option class="u98_input_option" value="康肤冲剂(I)">康肤冲剂(I)</option>
+                        <option class="u98_input_option" value="注射用头孢哌酮舒巴坦(舒普深)">注射用头孢哌酮舒巴坦(舒普深)</option>
+                        <option class="u98_input_option" value="清热通淋片">清热通淋片</option>
+                        <option class="u98_input_option" value="康莱特注射液">康莱特注射液</option>
+                        <option class="u98_input_option" value="山茨菇">山茨菇</option>
+                        <option class="u98_input_option" value="马来酸桂哌齐特注射液(克林澳)">马来酸桂哌齐特注射液(克林澳)</option>
+                        <option class="u98_input_option" value="氯化镁">氯化镁</option>
+                        <option class="u98_input_option" value="呋塞米注射液(速尿)">呋塞米注射液(速尿)</option>
+                        <option class="u98_input_option" value="注射用奈达铂（奥先达）">注射用奈达铂（奥先达）</option>
+                        <option class="u98_input_option" value="注射用夫西地酸钠">注射用夫西地酸钠</option>
+                        <option class="u98_input_option" value="阳起石">阳起石</option>
+                        <option class="u98_input_option" value="铜绿假单胞菌注射液">铜绿假单胞菌注射液</option>
+                        <option class="u98_input_option" value="盐酸氟西汀胶囊(百忧解)">盐酸氟西汀胶囊(百忧解)</option>
+                        <option class="u98_input_option" value="10%氯化钠注射液">10%氯化钠注射液</option>
+                        <option class="u98_input_option" value="注射用替考拉宁(他格适)">注射用替考拉宁(他格适)</option>
+                        <option class="u98_input_option" value="石决明">石决明</option>
+                        <option class="u98_input_option" value="石榴皮">石榴皮</option>
+                        <option class="u98_input_option" value="熟地">熟地</option>
+                        <option class="u98_input_option" value="水牛角片">水牛角片</option>
+                        <option class="u98_input_option" value="水蜈蚣">水蜈蚣</option>
+                        <option class="u98_input_option" value="水蛭">水蛭</option>
+                        <option class="u98_input_option" value="苏梗">苏梗</option>
+                        <option class="u98_input_option" value="苏木">苏木</option>
+                        <option class="u98_input_option" value="太子参">太子参</option>
+                        <option class="u98_input_option" value="檀香">檀香</option>
+                        <option class="u98_input_option" value="桃仁">桃仁</option>
+                        <option class="u98_input_option" value="天冬">天冬</option>
+                      </select>
+                    </div>
+
+                    <!-- 药品4号 (下拉列表框) -->
+                    <div id="u99" class="ax_default droplist" data-label="药品4号">
+                      <div id="u99_div" class=""></div>
+                      <select id="u99_input" class="u99_input">
+                        <option class="u99_input_option" value="空">空</option>
+                        <option class="u99_input_option" value="注射用甲氨喋呤">注射用甲氨喋呤</option>
+                        <option class="u99_input_option" value="氟康唑氯化钠注射液(大扶康)">氟康唑氯化钠注射液(大扶康)</option>
+                        <option class="u99_input_option" value="50%葡萄糖注射液(塑瓶)">50%葡萄糖注射液(塑瓶)</option>
+                        <option class="u99_input_option" value="盐酸特比萘芬泡腾片（丁克）">盐酸特比萘芬泡腾片（丁克）</option>
+                        <option class="u99_input_option" value="红芪冲剂">红芪冲剂</option>
+                        <option class="u99_input_option" value="盐酸氨酮戊酸散（外用）">盐酸氨酮戊酸散（外用）</option>
+                        <option class="u99_input_option" value="盐酸美金刚片(易贝申)">盐酸美金刚片(易贝申)</option>
+                        <option class="u99_input_option" value="磷酸奥司他韦胶囊(达菲)">磷酸奥司他韦胶囊(达菲)</option>
+                        <option class="u99_input_option" value="泽泻颗粒">泽泻颗粒</option>
+                        <option class="u99_input_option" value="山药颗粒">山药颗粒</option>
+                        <option class="u99_input_option" value="熟大黄颗粒">熟大黄颗粒</option>
+                        <option class="u99_input_option" value="黄连颗粒">黄连颗粒</option>
+                        <option class="u99_input_option" value="黄芩颗粒(酒)">黄芩颗粒(酒)</option>
+                        <option class="u99_input_option" value="炒白芍颗粒">炒白芍颗粒</option>
+                        <option class="u99_input_option" value="炒白术颗粒">炒白术颗粒</option>
+                        <option class="u99_input_option" value="白芷颗粒">白芷颗粒</option>
+                        <option class="u99_input_option" value="薤白颗粒">薤白颗粒</option>
+                        <option class="u99_input_option" value="川芎颗粒">川芎颗粒</option>
+                        <option class="u99_input_option" value="维生素K1注射液">维生素K1注射液</option>
+                        <option class="u99_input_option" value="利培酮片（维思通）">利培酮片（维思通）</option>
+                        <option class="u99_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u99_input_option" value="0.9%氯化钠注射液（百特）">0.9%氯化钠注射液（百特）</option>
+                        <option class="u99_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u99_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u99_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u99_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u99_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u99_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u99_input_option" value="胃苏颗粒">胃苏颗粒</option>
+                        <option class="u99_input_option" value="复方甘露醇注射液(伸宁)">复方甘露醇注射液(伸宁)</option>
+                        <option class="u99_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u99_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u99_input_option" value="丹参颗粒">丹参颗粒</option>
+                        <option class="u99_input_option" value="亮菌甲素注射液">亮菌甲素注射液</option>
+                        <option class="u99_input_option" value="瞿麦">瞿麦</option>
+                        <option class="u99_input_option" value="肠内营养粉剂(安素)">肠内营养粉剂(安素)</option>
+                        <option class="u99_input_option" value="桉叶油">桉叶油</option>
+                        <option class="u99_input_option" value="肉苁蓉">肉苁蓉</option>
+                        <option class="u99_input_option" value="番木鳖酊">番木鳖酊</option>
+                        <option class="u99_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u99_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u99_input_option" value="酚红(AR)">酚红(AR)</option>
+                        <option class="u99_input_option" value="酚红IND">酚红IND</option>
+                        <option class="u99_input_option" value="酚酞">酚酞</option>
+                        <option class="u99_input_option" value="蜂蜡">蜂蜡</option>
+                        <option class="u99_input_option" value="呋喃西林">呋喃西林</option>
+                        <option class="u99_input_option" value="氯雷他定糖浆(开瑞坦)">氯雷他定糖浆(开瑞坦)</option>
+                        <option class="u99_input_option" value="丙泊酚注射液(得普利麻)">丙泊酚注射液(得普利麻)</option>
+                        <option class="u99_input_option" value="BG维生素E软胶囊">BG维生素E软胶囊</option>
+                        <option class="u99_input_option" value="贝前列素钠片">贝前列素钠片</option>
+                        <option class="u99_input_option" value="盐酸伊立替康注射液(开普拓）">盐酸伊立替康注射液(开普拓）</option>
+                        <option class="u99_input_option" value="磺胺(AR)">磺胺(AR)</option>
+                        <option class="u99_input_option" value="白附子">白附子</option>
+                        <option class="u99_input_option" value="白癫风胶囊">白癫风胶囊</option>
+                        <option class="u99_input_option" value="奋乃静片">奋乃静片</option>
+                        <option class="u99_input_option" value="注射用头孢他啶(复达欣)">注射用头孢他啶(复达欣)</option>
+                        <option class="u99_input_option" value="复方氨基酸(绿支安)18AA注射液">复方氨基酸(绿支安)18AA注射液</option>
+                        <option class="u99_input_option" value="吡诺克辛滴眼液(卡林-U)">吡诺克辛滴眼液(卡林-U)</option>
+                        <option class="u99_input_option" value="卡巴胆碱注射液（卡米可林）">卡巴胆碱注射液（卡米可林）</option>
+                        <option class="u99_input_option" value="重组人粒细胞(特尔立)巨噬细胞集落冻干粉针">重组人粒细胞(特尔立)巨噬细胞集落冻干粉针</option>
+                        <option class="u99_input_option" value="哌拉西林他唑巴坦钠(特治星)">哌拉西林他唑巴坦钠(特治星)</option>
+                        <option class="u99_input_option" value="地黄颗粒">地黄颗粒</option>
+                        <option class="u99_input_option" value="当归颗粒">当归颗粒</option>
+                        <option class="u99_input_option" value="维生素B1注射液">维生素B1注射液</option>
+                        <option class="u99_input_option" value="芒硝颗粒">芒硝颗粒</option>
+                        <option class="u99_input_option" value="生大黄颗粒">生大黄颗粒</option>
+                        <option class="u99_input_option" value="虎杖颗粒">虎杖颗粒</option>
+                        <option class="u99_input_option" value="鱼腥草颗粒">鱼腥草颗粒</option>
+                        <option class="u99_input_option" value="苦参颗粒">苦参颗粒</option>
+                        <option class="u99_input_option" value="硫酸镁注射液">硫酸镁注射液</option>
+                        <option class="u99_input_option" value="胡黄连">胡黄连</option>
+                        <option class="u99_input_option" value="虎杖">虎杖</option>
+                        <option class="u99_input_option" value="聚桂醇注射液">聚桂醇注射液</option>
+                        <option class="u99_input_option" value="康肤冲剂(I)">康肤冲剂(I)</option>
+                        <option class="u99_input_option" value="注射用头孢哌酮舒巴坦(舒普深)">注射用头孢哌酮舒巴坦(舒普深)</option>
+                        <option class="u99_input_option" value="清热通淋片">清热通淋片</option>
+                        <option class="u99_input_option" value="康莱特注射液">康莱特注射液</option>
+                        <option class="u99_input_option" value="山茨菇">山茨菇</option>
+                        <option class="u99_input_option" value="马来酸桂哌齐特注射液(克林澳)">马来酸桂哌齐特注射液(克林澳)</option>
+                        <option class="u99_input_option" value="氯化镁">氯化镁</option>
+                        <option class="u99_input_option" value="呋塞米注射液(速尿)">呋塞米注射液(速尿)</option>
+                        <option class="u99_input_option" value="注射用奈达铂（奥先达）">注射用奈达铂（奥先达）</option>
+                        <option class="u99_input_option" value="注射用夫西地酸钠">注射用夫西地酸钠</option>
+                        <option class="u99_input_option" value="阳起石">阳起石</option>
+                        <option class="u99_input_option" value="铜绿假单胞菌注射液">铜绿假单胞菌注射液</option>
+                        <option class="u99_input_option" value="盐酸氟西汀胶囊(百忧解)">盐酸氟西汀胶囊(百忧解)</option>
+                        <option class="u99_input_option" value="10%氯化钠注射液">10%氯化钠注射液</option>
+                        <option class="u99_input_option" value="注射用替考拉宁(他格适)">注射用替考拉宁(他格适)</option>
+                        <option class="u99_input_option" value="石决明">石决明</option>
+                        <option class="u99_input_option" value="石榴皮">石榴皮</option>
+                        <option class="u99_input_option" value="熟地">熟地</option>
+                        <option class="u99_input_option" value="水牛角片">水牛角片</option>
+                        <option class="u99_input_option" value="水蜈蚣">水蜈蚣</option>
+                        <option class="u99_input_option" value="水蛭">水蛭</option>
+                        <option class="u99_input_option" value="苏梗">苏梗</option>
+                        <option class="u99_input_option" value="苏木">苏木</option>
+                        <option class="u99_input_option" value="太子参">太子参</option>
+                        <option class="u99_input_option" value="檀香">檀香</option>
+                        <option class="u99_input_option" value="桃仁">桃仁</option>
+                        <option class="u99_input_option" value="天冬">天冬</option>
+                      </select>
+                    </div>
+
+                    <!-- 药品5号 (下拉列表框) -->
+                    <div id="u100" class="ax_default droplist" data-label="药品5号">
+                      <div id="u100_div" class=""></div>
+                      <select id="u100_input" class="u100_input">
+                        <option class="u100_input_option" value="空">空</option>
+                        <option class="u100_input_option" value="注射用甲氨喋呤">注射用甲氨喋呤</option>
+                        <option class="u100_input_option" value="氟康唑氯化钠注射液(大扶康)">氟康唑氯化钠注射液(大扶康)</option>
+                        <option class="u100_input_option" value="50%葡萄糖注射液(塑瓶)">50%葡萄糖注射液(塑瓶)</option>
+                        <option class="u100_input_option" value="盐酸特比萘芬泡腾片（丁克）">盐酸特比萘芬泡腾片（丁克）</option>
+                        <option class="u100_input_option" value="红芪冲剂">红芪冲剂</option>
+                        <option class="u100_input_option" value="盐酸氨酮戊酸散（外用）">盐酸氨酮戊酸散（外用）</option>
+                        <option class="u100_input_option" value="盐酸美金刚片(易贝申)">盐酸美金刚片(易贝申)</option>
+                        <option class="u100_input_option" value="磷酸奥司他韦胶囊(达菲)">磷酸奥司他韦胶囊(达菲)</option>
+                        <option class="u100_input_option" value="泽泻颗粒">泽泻颗粒</option>
+                        <option class="u100_input_option" value="山药颗粒">山药颗粒</option>
+                        <option class="u100_input_option" value="熟大黄颗粒">熟大黄颗粒</option>
+                        <option class="u100_input_option" value="黄连颗粒">黄连颗粒</option>
+                        <option class="u100_input_option" value="黄芩颗粒(酒)">黄芩颗粒(酒)</option>
+                        <option class="u100_input_option" value="炒白芍颗粒">炒白芍颗粒</option>
+                        <option class="u100_input_option" value="炒白术颗粒">炒白术颗粒</option>
+                        <option class="u100_input_option" value="白芷颗粒">白芷颗粒</option>
+                        <option class="u100_input_option" value="薤白颗粒">薤白颗粒</option>
+                        <option class="u100_input_option" value="川芎颗粒">川芎颗粒</option>
+                        <option class="u100_input_option" value="维生素K1注射液">维生素K1注射液</option>
+                        <option class="u100_input_option" value="利培酮片（维思通）">利培酮片（维思通）</option>
+                        <option class="u100_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u100_input_option" value="0.9%氯化钠注射液（百特）">0.9%氯化钠注射液（百特）</option>
+                        <option class="u100_input_option" value="0.9%氯化钠注射液(塑瓶)">0.9%氯化钠注射液(塑瓶)</option>
+                        <option class="u100_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u100_input_option" value="10%葡萄糖注射液(塑瓶)">10%葡萄糖注射液(塑瓶)</option>
+                        <option class="u100_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u100_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u100_input_option" value="5%葡萄糖注射液(塑瓶)">5%葡萄糖注射液(塑瓶)</option>
+                        <option class="u100_input_option" value="胃苏颗粒">胃苏颗粒</option>
+                        <option class="u100_input_option" value="复方甘露醇注射液(伸宁)">复方甘露醇注射液(伸宁)</option>
+                        <option class="u100_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u100_input_option" value="艾塞那肽注射液(百泌达)">艾塞那肽注射液(百泌达)</option>
+                        <option class="u100_input_option" value="丹参颗粒">丹参颗粒</option>
+                        <option class="u100_input_option" value="亮菌甲素注射液">亮菌甲素注射液</option>
+                        <option class="u100_input_option" value="瞿麦">瞿麦</option>
+                        <option class="u100_input_option" value="肠内营养粉剂(安素)">肠内营养粉剂(安素)</option>
+                        <option class="u100_input_option" value="桉叶油">桉叶油</option>
+                        <option class="u100_input_option" value="肉苁蓉">肉苁蓉</option>
+                        <option class="u100_input_option" value="番木鳖酊">番木鳖酊</option>
+                        <option class="u100_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u100_input_option" value="枸橼酸芬太尼注射液">枸橼酸芬太尼注射液</option>
+                        <option class="u100_input_option" value="酚红(AR)">酚红(AR)</option>
+                        <option class="u100_input_option" value="酚红IND">酚红IND</option>
+                        <option class="u100_input_option" value="酚酞">酚酞</option>
+                        <option class="u100_input_option" value="蜂蜡">蜂蜡</option>
+                        <option class="u100_input_option" value="呋喃西林">呋喃西林</option>
+                        <option class="u100_input_option" value="氯雷他定糖浆(开瑞坦)">氯雷他定糖浆(开瑞坦)</option>
+                        <option class="u100_input_option" value="丙泊酚注射液(得普利麻)">丙泊酚注射液(得普利麻)</option>
+                        <option class="u100_input_option" value="BG维生素E软胶囊">BG维生素E软胶囊</option>
+                        <option class="u100_input_option" value="贝前列素钠片">贝前列素钠片</option>
+                        <option class="u100_input_option" value="盐酸伊立替康注射液(开普拓）">盐酸伊立替康注射液(开普拓）</option>
+                        <option class="u100_input_option" value="磺胺(AR)">磺胺(AR)</option>
+                        <option class="u100_input_option" value="白附子">白附子</option>
+                        <option class="u100_input_option" value="白癫风胶囊">白癫风胶囊</option>
+                        <option class="u100_input_option" value="奋乃静片">奋乃静片</option>
+                        <option class="u100_input_option" value="注射用头孢他啶(复达欣)">注射用头孢他啶(复达欣)</option>
+                        <option class="u100_input_option" value="复方氨基酸(绿支安)18AA注射液">复方氨基酸(绿支安)18AA注射液</option>
+                        <option class="u100_input_option" value="吡诺克辛滴眼液(卡林-U)">吡诺克辛滴眼液(卡林-U)</option>
+                        <option class="u100_input_option" value="卡巴胆碱注射液（卡米可林）">卡巴胆碱注射液（卡米可林）</option>
+                        <option class="u100_input_option" value="重组人粒细胞(特尔立)巨噬细胞集落冻干粉针">重组人粒细胞(特尔立)巨噬细胞集落冻干粉针</option>
+                        <option class="u100_input_option" value="哌拉西林他唑巴坦钠(特治星)">哌拉西林他唑巴坦钠(特治星)</option>
+                        <option class="u100_input_option" value="地黄颗粒">地黄颗粒</option>
+                        <option class="u100_input_option" value="当归颗粒">当归颗粒</option>
+                        <option class="u100_input_option" value="维生素B1注射液">维生素B1注射液</option>
+                        <option class="u100_input_option" value="芒硝颗粒">芒硝颗粒</option>
+                        <option class="u100_input_option" value="生大黄颗粒">生大黄颗粒</option>
+                        <option class="u100_input_option" value="虎杖颗粒">虎杖颗粒</option>
+                        <option class="u100_input_option" value="鱼腥草颗粒">鱼腥草颗粒</option>
+                        <option class="u100_input_option" value="苦参颗粒">苦参颗粒</option>
+                        <option class="u100_input_option" value="硫酸镁注射液">硫酸镁注射液</option>
+                        <option class="u100_input_option" value="胡黄连">胡黄连</option>
+                        <option class="u100_input_option" value="虎杖">虎杖</option>
+                        <option class="u100_input_option" value="聚桂醇注射液">聚桂醇注射液</option>
+                        <option class="u100_input_option" value="康肤冲剂(I)">康肤冲剂(I)</option>
+                        <option class="u100_input_option" value="注射用头孢哌酮舒巴坦(舒普深)">注射用头孢哌酮舒巴坦(舒普深)</option>
+                        <option class="u100_input_option" value="清热通淋片">清热通淋片</option>
+                        <option class="u100_input_option" value="康莱特注射液">康莱特注射液</option>
+                        <option class="u100_input_option" value="山茨菇">山茨菇</option>
+                        <option class="u100_input_option" value="马来酸桂哌齐特注射液(克林澳)">马来酸桂哌齐特注射液(克林澳)</option>
+                        <option class="u100_input_option" value="氯化镁">氯化镁</option>
+                        <option class="u100_input_option" value="呋塞米注射液(速尿)">呋塞米注射液(速尿)</option>
+                        <option class="u100_input_option" value="注射用奈达铂（奥先达）">注射用奈达铂（奥先达）</option>
+                        <option class="u100_input_option" value="注射用夫西地酸钠">注射用夫西地酸钠</option>
+                        <option class="u100_input_option" value="阳起石">阳起石</option>
+                        <option class="u100_input_option" value="铜绿假单胞菌注射液">铜绿假单胞菌注射液</option>
+                        <option class="u100_input_option" value="盐酸氟西汀胶囊(百忧解)">盐酸氟西汀胶囊(百忧解)</option>
+                        <option class="u100_input_option" value="10%氯化钠注射液">10%氯化钠注射液</option>
+                        <option class="u100_input_option" value="注射用替考拉宁(他格适)">注射用替考拉宁(他格适)</option>
+                        <option class="u100_input_option" value="石决明">石决明</option>
+                        <option class="u100_input_option" value="石榴皮">石榴皮</option>
+                        <option class="u100_input_option" value="熟地">熟地</option>
+                        <option class="u100_input_option" value="水牛角片">水牛角片</option>
+                        <option class="u100_input_option" value="水蜈蚣">水蜈蚣</option>
+                        <option class="u100_input_option" value="水蛭">水蛭</option>
+                        <option class="u100_input_option" value="苏梗">苏梗</option>
+                        <option class="u100_input_option" value="苏木">苏木</option>
+                        <option class="u100_input_option" value="太子参">太子参</option>
+                        <option class="u100_input_option" value="檀香">檀香</option>
+                        <option class="u100_input_option" value="桃仁">桃仁</option>
+                        <option class="u100_input_option" value="天冬">天冬</option>
+                      </select>
+                    </div>
+
+                    <!-- 取消选择药品 (矩形) -->
+                    <div id="u101" class="ax_default primary_button" data-label="取消选择药品">
+                      <div id="u101_div" class=""></div>
+                      <div id="u101_text" class="text ">
+                        <p><span>取消</span></p>
+                      </div>
+                    </div>
+
+                    <!-- 确认选择药品 (矩形) -->
+                    <div id="u102" class="ax_default primary_button" data-label="确认选择药品">
+                      <div id="u102_div" class=""></div>
+                      <div id="u102_text" class="text ">
+                        <p><span>确认</span></p>
+                      </div>
+                    </div>
+
+                    <!-- Unnamed (矩形) -->
+                    <div id="u103" class="ax_default label">
+                      <div id="u103_div" class=""></div>
+                      <div id="u103_text" class="text ">
+                        <p><span>处方名称：</span></p>
+                      </div>
+                    </div>
+
+                    <!-- 显示新建药方名称 (矩形) -->
+                    <div id="u104" class="ax_default label" data-label="显示新建药方名称">
+                      <div id="u104_div" class=""></div>
+                      <div id="u104_text" class="text " style="display:none; visibility: hidden">
+                        <p></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- 看诊的患者矩形 (矩形) -->
+        <div id="u105" class="ax_default box_1" data-label="看诊的患者矩形" style="display:none; visibility: hidden">
+          <div style="border-color: white"; id="u105_div" class="">
+            <button onclick="BeginKanZhen()" style="background-color: rgba(22, 155, 213, 1); color: white; width: 78px; height: 36px">开始看诊</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u106" class="ax_default _标题_3">
+        <div id="u106_div" class=""></div>
+        <div id="u106_text" class="text ">
+          <p><span>未诊患者</span></p>
+        </div>
+      </div>
+
+
+      <!-- Unnamed (矩形) -->
+      <div id="u107" class="ax_default _标题_3">
+        <div id="u107_div" class=""></div>
+        <div id="u107_text" class="text ">
+          <p><span>已诊患者</span></p>
+        </div>
+      </div>
+
+      <!-- 已诊患者矩形 (矩形) -->
+      <div id="u108" class="ax_default box_1" data-label="已诊患者矩形">
+        <div id="u108_div" class="">
+
+          <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+              <th>病历号</th>
+              <th>姓名</th>
+              <th>看诊</th>
+            </tr >
+            </thead>
+            <tbody>
+            <tr style="color: #290599" th:each="patient:${donePatients}">
+              <td th:text="${patient.getMedRID()}"></td>
+              <td th:id="${patient.getMedRID()+'21'}" th:text="${patient.getNAME()}"></td>
+              <td>
+                <input th:id="${patient.getMedRID()+'2'}" name="boxes2" type="checkbox">
+              </td>
+            </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+
+      <!-- 开药的患者矩形 (矩形) -->
+      <div id="u109" class="ax_default box_1" data-label="开药的患者矩形" style="display:none; visibility: hidden">
+        <div style="border-color: white" id="u109_div" class="">
+
+          <button onclick="BeginKaiYao()" style="background-color: rgba(22, 155, 213, 1); color: white; width: 78px; height: 36px">开始开药</button>
+
+        </div>
+
+      </div>
+
+
+
+
+
+      <!-- Unnamed (直线 / 行距) -->
+      <div id="u112" class="ax_default line1">
+        <img id="u112_img" class="img " src="/Doctor/images/page_1/u112.svg"/>
+        <div id="u112_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <script src="/Doctor/resources/scripts/axure/ios.js"></script>
+  </body>
+</html>

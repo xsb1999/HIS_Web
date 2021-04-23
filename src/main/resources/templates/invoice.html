@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发票信息</title>
+
+
+    <script type="text/javascript">
+
+        function f() {
+            var blh = window.opener.document.all.blhhh.value;
+            document.getElementById("blhid").value = blh;
+
+            var name = window.opener.document.all.name.value;
+            document.getElementById("nameid").value = name;
+
+            var cost = window.opener.document.all.zongjine.value;
+            document.getElementById("cost1id").value = cost;
+
+            var yp = window.opener.document.all.jiaofeiyp.value;
+            document.getElementById("ypid").value = yp;
+
+            document.getElementById("paytypeid").value = "现金";
+            document.getElementById("fphid").value = Math.floor((Math.random()+Math.floor(Math.random()*9+1))*Math.pow(6,6));
+        }
+
+    </script>
+
+
+</head>
+<body>
+
+<h2 style="text-align: center;background-color: papayawhip;">发票信息(交费)</h2>
+
+<div style="width:100%;text-align:center; background-color: burlywood">
+    <br><br>
+    <form th:action="@{/jiaofei}">
+
+        发票号：<input name="fph" id="fphid">
+        <label style="color: burlywood">---</label>
+        病历号：<input name="blh" id="blhid" value="">
+        <br><br>
+        患者姓名：<input name="name", id="nameid" value="">
+        <label style="color: burlywood">---</label>
+        支付方式：<input name="paytype", id="paytypeid" value="">
+        <br><br>
+        应收金额：<input name="cost1", id="cost1id" value="">
+        <label style="color: burlywood">---</label>
+        实收金额：<input name="cost2", id="cost2id">
+        <br><br>
+        找零金额：<input name="cost3", id="cost3id">
+        <label style="color: burlywood">--</label>
+        交费药品：<input name="yp", id="ypid" style="width: 350px">
+        <br><br>
+
+<!--        计算找零-->
+        <script type="text/javascript">
+
+            function calculate() {
+                var cost1 = document.getElementById("cost1id").value;
+                var cost2 = document.getElementById("cost2id").value;
+                document.getElementById("cost3id").value = (cost2-cost1).toFixed(2);
+            }
+
+            function success() {
+                alert("收费成功！")
+                window.close()
+            }
+
+        </script>
+
+        <button type="submit" style="background-color:plum;width: 60px;height: 36px;">收费</button>
+        <br><br>
+    </form>
+    <button onclick="f()" style="background-color:plum;width: 100px;height: 43px;">获取发票信息</button>
+    <label style="color: plum">----</label>
+    <button onclick="calculate()" style="background-color:plum; width: 100px;height: 43px;">显示找零金额</button>
+    <br><br>
+</div>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>挂号</title>
+		<!-- Bootstrap core CSS -->
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link th:href="@{/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+
+		<link href="/Register/resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+		<link href="/Register/data/styles.css" type="text/css" rel="stylesheet"/>
+		<link href="/Register/files/page_1/styles.css" type="text/css" rel="stylesheet"/>
+		<script src="/Register/resources/scripts/jquery-3.2.1.min.js"></script>
+		<script src="/Register/resources/scripts/axure/axQuery.js"></script>
+		<script src="/Register/resources/scripts/axure/globals.js"></script>
+		<script src="/Register/resources/scripts/axutils.js"></script>
+		<script src="/Register/resources/scripts/axure/annotation.js"></script>
+		<script src="/Register/resources/scripts/axure/axQuery.std.js"></script>
+		<script src="/Register/resources/scripts/axure/doc.js"></script>
+		<script src="/Register/resources/scripts/messagecenter.js"></script>
+		<script src="/Register/resources/scripts/axure/events.js"></script>
+		<script src="/Register/resources/scripts/axure/recording.js"></script>
+		<script src="/Register/resources/scripts/axure/action.js"></script>
+		<script src="/Register/resources/scripts/axure/expr.js"></script>
+		<script src="/Register/resources/scripts/axure/geometry.js"></script>
+		<script src="/Register/resources/scripts/axure/flyout.js"></script>
+		<script src="/Register/resources/scripts/axure/model.js"></script>
+		<script src="/Register/resources/scripts/axure/repeater.js"></script>
+		<script src="/Register/resources/scripts/axure/sto.js"></script>
+		<script src="/Register/resources/scripts/axure/utils.temp.js"></script>
+		<script src="/Register/resources/scripts/axure/variables.js"></script>
+		<script src="/Register/resources/scripts/axure/drag.js"></script>
+		<script src="/Register/resources/scripts/axure/move.js"></script>
+		<script src="/Register/resources/scripts/axure/visibility.js"></script>
+		<script src="/Register/resources/scripts/axure/style.js"></script>
+		<script src="/Register/resources/scripts/axure/adaptive.js"></script>
+		<script src="/Register/resources/scripts/axure/tree.js"></script>
+		<script src="/Register/resources/scripts/axure/init.temp.js"></script>
+		<script src="/Register/resources/scripts/axure/legacy.js"></script>
+		<script src="/Register/resources/scripts/axure/viewer.js"></script>
+		<script src="/Register/resources/scripts/axure/math.js"></script>
+		<script src="/Register/resources/scripts/axure/jquery.nicescroll.min.js"></script>
+		<script src="/Register/data/document.js"></script>
+		<script src="/Register/files/page_1/data.js"></script>
+		<script type="text/javascript">
+			$axure.utils.getTransparentGifPath = function() { return '/Register/resources/images/transparent.gif'; };
+			$axure.utils.getOtherPath = function() { return '/Register/resources/Other.html'; };
+			$axure.utils.getReloadPath = function() { return '/Register/resources/reload.html'; };
+		</script>
+
+	</head>
+
+	<body>
+
+		<div class="container-fluid">
+			<!--头部导航栏-->
+			<nav class="navbar navbar-light sticky-top bg-primary flex-md-nowrap p-0">
+				<input style="height: 32px; color: white; background-color: white; border-color: white" class="form-control form-control-dark w-100" type="text" placeholder="" aria-label="Search">
+				<ul class="navbar-nav px-3">
+					<li class="nav-item text-nowrap">
+						<a style="color: white; height: 32px" class="nav-link" th:href="@{/logout}">退出</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="row">
+			<!--侧边栏-->
+				<div th:replace="~{common/commons::sider(active='Register')}"></div>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+						<h1 class="h2" style="color: blue" >挂号</h1>
+					</div>
+
+					<article id="regArticle3" width="1076" height="454" style="display: block; width: 1076px; height: 454px;">
+					<!--挂号页面-->
+						<div th:replace="~{common/RegisterCommon::registerboard}">
+
+						</div>
+
+
+					</article>
+
+
+				</main>
+			</div>
+		</div>
+
+	</body>
+
+</html>

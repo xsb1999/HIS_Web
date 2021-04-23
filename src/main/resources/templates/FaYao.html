@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>发药页面</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+
+    <!--		全选checkbox方法-->
+    <script type="text/javascript">
+        function SelectAll() {
+            var first = document.getElementById("allboxes");
+            var check=document.getElementsByName("boxes");
+            if (first.checked == true){
+                for(var i=0;i<check.length;i++){
+                    check[i].checked=true;
+                }
+            }
+            else {
+                for(var i=0;i<check.length;i++){
+                    check[i].checked=false;
+                }
+            }
+        }
+
+        function success() {
+            var allboxes = document.getElementsByName("boxes");
+            var num = parseInt("0");
+            for(var i=0;i<allboxes.length;i++){
+                if (allboxes[i].checked == true){
+                    num = num + 1;
+                }
+            }
+            if (num == 0 && allboxes.length!=0){
+                alert("没有选择药品！已帮您直接发药！");
+            }else if (num == 0 && allboxes.length==0){
+                alert("没有可发放的药品！");
+            }else if (num!=allboxes.length){
+                alert("只能全部发药！已帮您直接发药！");
+            }else{
+                document.getElementsByName("success1").value = "yes";
+                alert("发药成功！");
+            }
+        }
+
+    </script>
+
+
+</head>
+
+<body>
+<div th:insert="~{common/YaoFangCommon::topbar}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:insert="~{common/YaoFangCommon::sider(active='FaYao')}"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <h3 style="color:blue;">药房发药</h3>
+
+            <form th:action="@{/fayao}">
+                <br><br>
+                <p style="font-weight: bold">患者信息查询</p>
+                病历号: <input name="blh">
+                <label style="color: white">---</label>
+                <button style="background-color: #b3d7ff">搜索</button>
+            </form>
+            <br><br>
+            <p style="font-weight: bold">患者信息确认</p>
+
+            <form th:action="@{/fayao1}">
+            姓名: <input name="name" th:value="${fyName}">
+            <label style="color: white">---</label>
+            身份证号: <input name="identity" th:value="${fyId}">
+            <label style="color: white">---</label>
+            病历号: <input name="binglihao" th:value="${fyBlh}">
+
+            <br>
+                <button onclick="success()" type="submit" style="color: white; background-color: #990bf8; width: 80px; height: 32px">发药</button>
+            </form>
+
+            <br>
+            <p style="font-weight: bold">患者药品信息</p>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="allboxes" onclick="SelectAll()">
+                        </th>
+                        <th>药品名称</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>处方名称</th>
+                        <th>开立时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="fyInfo:${faYaoInfoList}">
+                        <td>
+                            <input  name="boxes" type="checkbox"/>
+                        </td>
+                        <td th:text="${fyInfo.getMName()}"></td>
+                        <td th:text="${fyInfo.getMPrice()}"></td>
+                        <td th:text="${fyInfo.getMedAmount()}"></td>
+                        <td th:text="${fyInfo.getPreName()}"></td>
+                        <td th:text="${fyInfo.getCreateTime()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+</body>
+
+</html>

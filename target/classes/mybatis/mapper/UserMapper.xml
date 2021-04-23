@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.his_20184861.mapper.UserMapper">
+
+<select id="VerifyLogin" parameterType="String" resultType="User">
+
+    select * from user where UID = #{id} and PASSWORD = #{password}
+
+</select>
+
+<select id="getDoctorId" resultType="String">
+
+    select UID from USER where UName = #{name}
+
+</select>
+
+
+<select id="getDepartmentId" resultType="String">
+
+    select DID from USER where UName = #{name}
+
+</select>
+
+
+</mapper>

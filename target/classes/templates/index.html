@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>登录页面</title>
+		<!-- Bootstrap core CSS -->
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link th:href="@{/css/signin.css}" rel="stylesheet">
+	</head>
+
+	<body class="text-center">
+		<form class="form-signin" th:action="@{/user/login}">
+			<img class="mb-4" th:src="@{/img/Hospital.svg}" alt="" width="90" height="81">
+			<h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+
+			<p th:text="${msg}" th:if="${not #strings.isEmpty(msg)}" style="color: red"></p>
+			<p th:text="${MSG}" th:if="${not #strings.isEmpty(MSG)}" style="color: red"></p>
+
+			<label class="sr-only">Username</label>
+			<input type="text" name="username" class="form-control" placeholder="用户名" required="" autofocus="">
+			<label class="sr-only">Password</label>
+			<input type="password" name="password" class="form-control" placeholder="密码" required="">
+			<div class="checkbox mb-3">
+
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+			<p class="mt-5 mb-3 text-muted">HIS - 20184861</p>
+
+		</form>
+
+	</body>
+
+</html>

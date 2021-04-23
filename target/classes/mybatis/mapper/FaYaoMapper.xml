@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.his_20184861.mapper.FaYaoMapper">
+
+    <select id="getMedicine" resultType="FaYaoInfo">
+        select * from patientprescriptiondetail p join medicine m
+        on p.MID = m.MID
+        where MedRID = #{blh} and MState = '2' and PayState = '1';
+    </select>
+
+
+    <select id="getPatient" resultType="Patient">
+        select * from patient where MedRID = #{MedRID};
+    </select>
+
+
+    <select id="changeMState">
+        update patientprescriptiondetail set MState = '1' where MedRID = #{blh} and PayState = '1';
+    </select>
+
+
+</mapper>

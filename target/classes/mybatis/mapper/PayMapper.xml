@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.his_20184861.mapper.PayMapper">
+
+    <select id="getPatient" resultType="Patient">
+        select * from patient where MedRID = #{MedRID};
+    </select>
+
+
+    <select id="getPayInfo" resultType="PayInfo">
+        select * from patientprescriptiondetail p join medicine m on p.MID = m.MID
+        where p.MedRID = #{MedRID} and PayState = '2';
+    </select>
+
+
+    <select id="changeState">
+        update patientprescriptiondetail set PayState = '1' where MedRID = #{blh} and
+        MID in (select MID from medicine where MName in
+        <foreach collection="medList" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        )
+    </select>
+
+
+
+    <select id="writeToInvoice">
+        insert into invoice
+        values
+        (#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7},#{8});
+
+    </select>
+
+    <select id="writeToPayment">
+        insert into payment
+        values
+        (#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7},#{8},#{9});
+
+    </select>
+
+
+    <select id="getMIDandPrice" resultType="Medicine">
+        select * from medicine where MName = #{MName};
+    </select>
+
+
+    <select id="getID" resultType="int">
+        select MAX(PayID) from payment;
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,540 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>挂号公共页面</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="/Register/resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="/Register/data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="/Register/files/page_1/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="/Register/resources/scripts/jquery-3.2.1.min.js"></script>
+    <script src="/Register/resources/scripts/axure/axQuery.js"></script>
+    <script src="/Register/resources/scripts/axure/globals.js"></script>
+    <script src="/Register/resources/scripts/axutils.js"></script>
+    <script src="/Register/resources/scripts/axure/annotation.js"></script>
+    <script src="/Register/resources/scripts/axure/axQuery.std.js"></script>
+    <script src="/Register/resources/scripts/axure/doc.js"></script>
+    <script src="/Register/resources/scripts/messagecenter.js"></script>
+    <script src="/Register/resources/scripts/axure/events.js"></script>
+    <script src="/Register/resources/scripts/axure/recording.js"></script>
+    <script src="/Register/resources/scripts/axure/action.js"></script>
+    <script src="/Register/resources/scripts/axure/expr.js"></script>
+    <script src="/Register/resources/scripts/axure/geometry.js"></script>
+    <script src="/Register/resources/scripts/axure/flyout.js"></script>
+    <script src="/Register/resources/scripts/axure/model.js"></script>
+    <script src="/Register/resources/scripts/axure/repeater.js"></script>
+    <script src="/Register/resources/scripts/axure/sto.js"></script>
+    <script src="/Register/resources/scripts/axure/utils.temp.js"></script>
+    <script src="/Register/resources/scripts/axure/variables.js"></script>
+    <script src="/Register/resources/scripts/axure/drag.js"></script>
+    <script src="/Register/resources/scripts/axure/move.js"></script>
+    <script src="/Register/resources/scripts/axure/visibility.js"></script>
+    <script src="/Register/resources/scripts/axure/style.js"></script>
+    <script src="/Register/resources/scripts/axure/adaptive.js"></script>
+    <script src="/Register/resources/scripts/axure/tree.js"></script>
+    <script src="/Register/resources/scripts/axure/init.temp.js"></script>
+    <script src="/Register/resources/scripts/axure/legacy.js"></script>
+    <script src="/Register/resources/scripts/axure/viewer.js"></script>
+    <script src="/Register/resources/scripts/axure/math.js"></script>
+    <script src="/Register/resources/scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="/Register/data/document.js"></script>
+    <script src="/Register/files/page_1/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return '/Register/resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return '/Register/resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return '/Register/resources/reload.html'; };
+    </script>
+
+
+  </head>
+  <body>
+    <div id="base" class="" th:fragment="registerboard">
+
+      <form th:action="@{/Reg}">
+        <h4 th:text="${reg}" style="color: red"></h4>
+        <button type="submit" style="width:85px;height: 35px;font-weight: bold; color:purple;border-color:gold;background-color: gold">点我挂号</button>
+
+        <!-- 发票号 (文本框(单行)) -->
+      <div id="u0" class="ax_default text_field" data-label="发票号">
+        <div id="u0_div" class=""></div>
+        <input id="u0_input" type="text" th:value="${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*1000000),6,0)}" class="u0_input"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1" class="ax_default label">
+        <div id="u1_div" class=""></div>
+        <div id="u1_text" class="text ">
+          <p style="color: red"><span>发票号</span></p>
+        </div>
+      </div>
+
+      <!-- 病历号 (文本框(单行)) -->
+      <div id="u2" class="ax_default text_field" data-label="病历号">
+        <div id="u2_div" class=""></div>
+        <input name="BingLiHao" id="u2_input" type="text" th:value="${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*1000000),6,0)}" class="u2_input"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u3" class="ax_default label">
+        <div id="u3_div" class=""></div>
+        <div id="u3_text" class="text ">
+          <p style="color: red"><span>病历号</span></p>
+        </div>
+      </div>
+
+        <script type="text/javascript">
+          // 确认挂号信息（根据出生日期计算年龄）
+          function confirm() {
+            var myDate = new Date();
+            var tYear = myDate.getFullYear();
+            var birthday = document.getElementById("u7_input").value+"";
+            var year = birthday.substr(0, 4);
+            document.getElementById("u10_input").value = parseInt(tYear) - parseInt(year) + "";
+
+            var doctor1 = document.getElementById("u37_input").value;
+            var doctor2 = document.getElementById("u39_input").value;
+            var doctor3 = document.getElementById("u41_input").value;
+            var doctor4 = document.getElementById("u43_input").value;
+            var department = document.getElementById("u27_input").value;
+
+            if (department == "心血管内科"){
+              document.getElementById("u48_input").value = doctor1;
+            }if (department == "普通内科"){
+              document.getElementById("u48_input").value = doctor2;
+            }if (department == "骨科"){
+              document.getElementById("u48_input").value = doctor3;
+            }if (department == "呼吸内科"){
+              document.getElementById("u48_input").value = doctor4;
+            }
+
+
+            var cost = "";
+            var haobie = document.getElementById("u30_input").value;
+            var blb = document.getElementById("u45_input").value;
+
+            if (haobie == "专家号"&& blb == "要"){
+              cost = "51";
+            }if (haobie == "专家号"&& blb == "不要"){
+              cost = "50";
+            }if (haobie == "普通号"&& blb == "要"){
+              cost = "31";
+            }if (haobie == "普通号"&& blb == "不要"){
+              cost = "30";
+            }
+
+            document.getElementById("u51_input").value = cost;
+            document.getElementById("u26_input").value = cost;
+          }
+
+        </script>
+
+
+        <br>
+        <label style="color: white">----------------------------------
+          ------------------------------</label>
+        <button type="button" onclick="confirm()" style="color: white; background-color: palevioletred; width: 100px; height: 30px">确认挂号信息</button>
+
+
+        <script type="text/javascript">
+
+          // 清空按钮
+          function clearAll() {
+            document.getElementById("u48_input").value = "";
+            document.getElementById("u51_input").value = "";
+            document.getElementById("u8_input").value = "";
+            document.getElementById("u9_input").value = "";
+            document.getElementById("u18_input").value = "";
+            document.getElementById("u10_input").value = "";
+            document.getElementById("u7_input").value = "";
+            document.getElementById("u21_input").value = "";
+            document.getElementById("u26_input").value = "";
+          }
+
+
+        </script>
+
+        <label style="color: white">--------</label>
+        <button type="button" onclick="clearAll()" style="color: white; background-color: palevioletred; width: 100px; height: 30px">清空</button>
+
+
+
+      <!-- Unnamed (矩形) -->
+      <div id="u6" class="ax_default _标题_3">
+        <div id="u6_div" class=""></div>
+        <div id="u6_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- 出生日期 (文本框(单行)) -->
+      <div id="u7" class="ax_default text_field" data-label="出生日期">
+        <div id="u7_div" class=""></div>
+        <input name="birthday" id="u7_input" type="date" value="" class="u7_input"/>
+      </div>
+
+      <!-- 姓名 (文本框(单行)) -->
+      <div id="u8" class="ax_default text_field" data-label="姓名">
+        <div id="u8_div" class=""></div>
+        <input name="username" id="u8_input" type="text" value="" class="u8_input"/>
+      </div>
+
+      <!-- 身份证号 (文本框(单行)) -->
+      <div id="u9" class="ax_default text_field" data-label="身份证号">
+        <div id="u9_div" class=""></div>
+        <input name="identitys" id="u9_input" type="text" value="" class="u9_input"/>
+      </div>
+
+      <!-- 年龄 (文本框(单行)) -->
+      <div id="u10" class="ax_default text_field" data-label="年龄">
+        <div id="u10_div" class=""></div>
+        <input style="color: #c3463a" name="ages" id="u10_input" type="text" value="" class="u10_input"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u11" class="ax_default label">
+        <div id="u11_div" class=""></div>
+        <div id="u11_text" class="text ">
+          <p style="color: red"><span>姓名</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u12" class="ax_default label">
+        <div id="u12_div" class=""></div>
+        <div id="u12_text" class="text ">
+          <p style="color: red"><span>性别</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u13" class="ax_default label">
+        <div id="u13_div" class=""></div>
+        <div id="u13_text" class="text ">
+          <p style="color: #02A7F0"><span>年龄</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u14" class="ax_default label">
+        <div id="u14_div" class=""></div>
+        <div id="u14_text" class="text ">
+          <p style="color: red"><span>出生日期</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u15" class="ax_default label">
+        <div id="u15_div" class=""></div>
+        <div id="u15_text" class="text ">
+          <p style="font-weight: bold;color: brown"><span>挂号信息：</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u16" class="ax_default label">
+        <div id="u16_div" class=""></div>
+        <div id="u16_text" class="text ">
+          <p style="color: red"><span>身份证号</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u17" class="ax_default label">
+        <div id="u17_div" class=""></div>
+        <div id="u17_text" class="text ">
+          <p><span>家庭住址</span></p>
+        </div>
+      </div>
+
+      <!-- 家庭住址 (文本框(单行)) -->
+      <div id="u18" class="ax_default text_field" data-label="家庭住址">
+        <div id="u18_div" class=""></div>
+        <input name="home" id="u18_input" type="text" value="" class="u18_input"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u19" class="ax_default label">
+        <div id="u19_div" class=""></div>
+        <div id="u19_text" class="text ">
+          <p><span>结算类别</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u20" class="ax_default label">
+        <div id="u20_div" class=""></div>
+        <div id="u20_text" class="text ">
+          <p style="color: red"><span>看诊日期</span></p>
+        </div>
+      </div>
+
+      <!-- 看诊日期 (文本框(单行)) -->
+      <div id="u21" class="ax_default text_field" data-label="看诊日期">
+        <div id="u21_div" class=""></div>
+        <input name="kanzhenDate" id="u21_input" type="date" value="" class="u21_input"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u22" class="ax_default label">
+        <div id="u22_div" class=""></div>
+        <div id="u22_text" class="text ">
+          <p style="color: red"><span>午别</span></p>
+        </div>
+      </div>
+
+      <!-- 午别 (下拉列表框) -->
+      <div id="u23" class="ax_default droplist" data-label="午别">
+        <div id="u23_div" class=""></div>
+        <select id="u23_input" class="u23_input" name="noon">
+          <option class="u23_input_option" value="上午">上午</option>
+          <option class="u23_input_option" value="下午">下午</option>
+        </select>
+      </div>
+
+      <!-- 结算类别 (下拉列表框) -->
+      <div id="u24" class="ax_default droplist" data-label="结算类别">
+        <div id="u24_div" class=""></div>
+        <select id="u24_input" class="u24_input">
+          <option class="u24_input_option" value="自费">自费</option>
+          <option class="u24_input_option" value="市医保">市医保</option>
+        </select>
+      </div>
+
+      <!-- 性别 (下拉列表框) -->
+      <div id="u25" class="ax_default droplist" data-label="性别">
+        <div id="u25_div" class=""></div>
+        <select id="u25_input" class="u25_input" name="gender">
+          <option class="u25_input_option" value="男">男</option>
+          <option class="u25_input_option" value="女">女</option>
+        </select>
+      </div>
+
+      <!-- 应收金额 (文本框(单行)) -->
+      <div id="u26" class="ax_default text_field" data-label="应收金额">
+        <div id="u26_div" class=""></div>
+        <input style="color: #c3463a" id="u26_input" type="text" value="" class="u26_input"/>
+      </div>
+
+      <!-- 科室 (下拉列表框) -->
+      <div id="u27" class="ax_default droplist" data-label="科室">
+        <div id="u27_div" class=""></div>
+        <select id="u27_input" class="u27_input" name="DepartmentName">
+          <option class="u27_input_option" value="心血管内科">心血管内科</option>
+          <option class="u27_input_option" value="普通内科">普通内科</option>
+          <option class="u27_input_option" value="呼吸内科">呼吸内科</option>
+          <option class="u27_input_option" value="骨科">骨科</option>
+        </select>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u28" class="ax_default label">
+        <div id="u28_div" class=""></div>
+        <div id="u28_text" class="text ">
+          <p style="color: red"><span>挂号科室</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u29" class="ax_default label">
+        <div id="u29_div" class=""></div>
+        <div id="u29_text" class="text ">
+          <p style="color: red"><span>号别</span></p>
+        </div>
+      </div>
+
+      <!-- 号别 (下拉列表框) -->
+      <div id="u30" class="ax_default droplist" data-label="号别">
+        <div id="u30_div" class=""></div>
+        <select id="u30_input" class="u30_input" name="level">
+          <option class="u30_input_option" value="普通号">普通号</option>
+          <option class="u30_input_option" value="专家号">专家号</option>
+        </select>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u31" class="ax_default label">
+        <div id="u31_div" class=""></div>
+        <div id="u31_text" class="text ">
+          <p><span>应收金额</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u32" class="ax_default label">
+        <div id="u32_div" class=""></div>
+        <div id="u32_text" class="text ">
+          <p><span>收费方式</span></p>
+        </div>
+      </div>
+
+      <!-- 收费方式 (下拉列表框) -->
+      <div id="u33" class="ax_default droplist" data-label="收费方式">
+        <div id="u33_div" class=""></div>
+        <select id="u33_input" class="u33_input">
+          <option class="u33_input_option" value="现金">现金</option>
+          <option class="u33_input_option" value="微信">微信</option>
+          <option class="u33_input_option" value="医保卡">医保卡</option>
+        </select>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u34" class="ax_default label">
+        <div id="u34_div" class=""></div>
+        <div id="u34_text" class="text ">
+          <p><span>病历本</span></p>
+        </div>
+      </div>
+
+      <!-- 医生面板 (动态面板) -->
+      <div id="u35" class="ax_default" data-label="医生面板">
+        <div id="u35_state0" class="panel_state" data-label="心血管内科医生" style="">
+          <div id="u35_state0_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u36" class="ax_default label">
+              <div id="u36_div" class=""></div>
+              <div id="u36_text" class="text ">
+                <p style="color: red"><span>看诊医生</span></p>
+              </div>
+            </div>
+
+            <!-- 心血管内科所有医生 (下拉列表框) -->
+            <div id="u37" class="ax_default droplist" data-label="心血管内科所有医生">
+              <div id="u37_div" class=""></div>
+              <select id="u37_input" class="u37_input">
+                <option class="u37_input_option" value="扁鹊">扁鹊</option>
+                <option class="u37_input_option" value="华佗">华佗</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="u35_state1" class="panel_state" data-label="普通内科医生" style="visibility: hidden;">
+          <div id="u35_state1_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u38" class="ax_default label">
+              <div id="u38_div" class=""></div>
+              <div id="u38_text" class="text ">
+                <p style="color:red;"><span>看诊医生</span></p>
+              </div>
+            </div>
+
+            <!-- 普通内科所有医生 (下拉列表框) -->
+            <div id="u39" class="ax_default droplist" data-label="普通内科所有医生">
+              <div id="u39_div" class=""></div>
+              <select id="u39_input" class="u39_input">
+                <option class="u39_input_option" value="张仲景">张仲景</option>
+                <option class="u39_input_option" value="霍去病">霍去病</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="u35_state2" class="panel_state" data-label="骨科医生" style="visibility: hidden;">
+          <div id="u35_state2_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u40" class="ax_default label">
+              <div id="u40_div" class=""></div>
+              <div id="u40_text" class="text ">
+                <p style="color: red"><span>看诊医生</span></p>
+              </div>
+            </div>
+
+            <!-- 骨科所有医生 (下拉列表框) -->
+            <div id="u41" class="ax_default droplist" data-label="骨科所有医生">
+              <div id="u41_div" class=""></div>
+              <select id="u41_input" class="u41_input">
+                <option class="u41_input_option" value="李时珍">李时珍</option>
+                <option class="u41_input_option" value="钱乙">钱乙</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="u35_state3" class="panel_state" data-label="呼吸内科医生" style="visibility: hidden;">
+          <div id="u35_state3_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u42" class="ax_default label">
+              <div id="u42_div" class=""></div>
+              <div id="u42_text" class="text ">
+                <p style="color: red"><span>看诊医生</span></p>
+              </div>
+            </div>
+
+            <!-- 呼吸内科所有医生 (下拉列表框) -->
+            <div id="u43" class="ax_default droplist" data-label="呼吸内科所有医生">
+              <div id="u43_div" class=""></div>
+              <select id="u43_input" class="u43_input">
+                <option class="u43_input_option" value="孙思邈">孙思邈</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 病历表要否 (下拉列表框) -->
+      <div id="u45" class="ax_default droplist" data-label="病历表要否">
+        <div id="u45_div" class=""></div>
+        <select id="u45_input" class="u45_input" name="blb">
+          <option class="u45_input_option" value="要">要</option>
+          <option class="u45_input_option" value="不要">不要</option>
+        </select>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u46" class="ax_default label">
+        <div id="u46_div" class=""></div>
+        <div id="u46_text" class="text ">
+          <p><span>元</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u47" class="ax_default label">
+        <div id="u47_div" class=""></div>
+        <div id="u47_text" class="text ">
+          <p><span>岁</span></p>
+        </div>
+      </div>
+
+      <!-- 最终医生 (文本框(单行)) -->
+      <div id="u48" class="ax_default text_field" data-label="最终医生">
+        <div id="u48_div" class=""></div>
+        <input style="color: #c3463a" name="DoctorName" id="u48_input" type="text" value="" class="u48_input"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u49" class="ax_default label">
+        <div id="u49_div" class=""></div>
+        <div id="u49_text" class="text ">
+          <p style="color: #02A7F0"><span>最终挂号医生</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u50" class="ax_default label">
+        <div id="u50_div" class=""></div>
+        <div id="u50_text" class="text ">
+          <p style="color: #02A7F0"><span>最终应收金额</span></p>
+        </div>
+      </div>
+
+      <!-- 最终金额 (文本框(单行)) -->
+      <div id="u51" class="ax_default text_field" data-label="最终金额">
+        <div id="u51_div" class=""></div>
+        <input style="color: #c3463a" id="u51_input" type="text" value="" class="u51_input"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u52" class="ax_default label">
+        <div id="u52_div" class=""></div>
+        <div id="u52_text" class="text ">
+          <p><span>元</span></p>
+        </div>
+      </div>
+      </form>
+    </div>
+    <script src="/Register/resources/scripts/axure/ios.js"></script>
+  </body>
+</html>
